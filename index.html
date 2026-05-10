@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Finance Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Finance Tracker" />
+    <link rel="manifest" href="manifest.json" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #f4f7fa;
+            --surface-color: rgba(255, 255, 255, 0.7);
+            --surface-solid: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --primary-color: #3b82f6;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --border-color: rgba(0, 0, 0, 0.05);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.05);
+            --glass-blur: blur(12px);
+            --nav-height: 70px;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f7fa;
+            --surface-color: rgba(255, 255, 255, 0.7);
+            --surface-solid: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --primary-color: #3b82f6;
+            --border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="lightbrown"] {
+            --bg-color: #f5efe6;
+            --surface-color: rgba(255, 248, 240, 0.7);
+            --surface-solid: #fffbf5;
+            --text-primary: #4a3728;
+            --text-secondary: #7a5f4a;
+            --primary-color: #8b6b4f;
+            --border-color: rgba(139, 107, 79, 0.1);
+        }
+
+        [data-theme="midnight"] {
+            --bg-color: #0a0f24;
+            --surface-color: rgba(16, 25, 53, 0.7);
+            --surface-solid: #101935;
+            --text-primary: #e2e8f0;
+            --text-secondary: #718096;
+            --primary-color: #4c51bf;
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="emerald"] {
+            --bg-color: #022c22;
+            --surface-color: rgba(6, 78, 59, 0.7);
+            --surface-solid: #064e3b;
+            --text-primary: #ecfdf5;
+            --text-secondary: #a7f3d0;
+            --primary-color: #34d399;
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="rosegold"] {
+            --bg-color: #fff1f2;
+            --surface-color: rgba(255, 228, 230, 0.7);
+            --surface-solid: #ffe4e6;
+            --text-primary: #881337;
+            --text-secondary: #be123c;
+            --primary-color: #e11d48;
+            --border-color: rgba(225, 29, 72, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        input,
+        textarea,
+        select {
+            user-select: auto;
+            -webkit-user-select: auto;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            position: relative;
+            background: var(--bg-color);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .glass {
+            background: var(--surface-color);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* LOGIN VIEW */
+        #login-view {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px;
+            flex: 1;
+        }
+
+        .login-logo {
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--surface-solid);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* APP LAYOUT */
+        .top-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .main-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            flex-shrink: 0;
+            width: 100%;
+            height: var(--nav-height);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 20;
+            border-top: 1px solid var(--border-color);
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+            height: 100%;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item.active i {
+            transform: translateY(-3px);
+        }
+
+        /* CARDS */
+        .balance-card {
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary-color), #2563eb);
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 5px 0 15px 0;
+        }
+
+        .balance-stats {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .stat-val {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .savings-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* LISTS & ITEMS */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+        }
+
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tx-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            background: var(--surface-solid);
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .tx-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .tx-icon.income {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .tx-icon.expense {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .tx-details {
+            flex: 1;
+        }
+
+        .tx-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+            color: var(--text-primary);
+        }
+
+        .tx-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .tx-amount {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .amount-in {
+            color: var(--success-color);
+        }
+
+        .amount-out {
+            color: var(--danger-color);
+        }
+
+        /* CHART & SUMMARY */
+        .chart-container {
+            background: var(--surface-solid);
+            padding: 15px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+        }
+
+        /* MODALS */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            width: 100%;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            padding: 30px 20px;
+            transform: translateY(100%);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        /* PROFILE & SETTINGS */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+            margin: 0 auto 15px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 2.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-joined {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .settings-group {
+            margin-bottom: 25px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--surface-solid);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .theme-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .theme-option.active {
+            border-color: var(--primary-color);
+            background: var(--surface-color);
+        }
+
+        .theme-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .swatch-light {
+            background: #f4f7fa;
+        }
+        .swatch-lightbrown {
+            background: #f5efe6;
+        }
+        .swatch-midnight {
+            background: #0a0f24;
+        }
+        .swatch-emerald {
+            background: #022c22;
+        }
+        .swatch-rosegold {
+            background: #fff1f2;
+        }
+
+        /* HISTORY FILTERS */
+        .history-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .history-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--surface-solid);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            cursor: pointer;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-chip.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* FLOATING ADD BTN */
+        .fab {
+            position: absolute;
+            bottom: calc(var(--nav-height) + 20px);
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            z-index: 15;
+            cursor: pointer;
+        }
+
+        /* Developer Contact */
+        .dev-contact {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            background: var(--surface-solid);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+        }
+
+        .dev-contact-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .dev-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-color);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .dev-contact-item:hover {
+            background: var(--surface-color);
+        }
+
+        .dev-contact-item i {
+            font-size: 1.4rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .dev-contact-item .fa-telegram {
+            color: #0088cc;
+        }
+
+        .dev-contact-item .fa-envelope {
+            color: #ea4335;
+        }
+
+        /* Custom Alert System */
+        .custom-alert-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .custom-alert-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .custom-alert-box {
+            background: var(--surface-solid);
+            border-radius: var(--radius-lg);
+            padding: 30px 25px 20px;
+            max-width: 320px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border-color);
+        }
+
+        .custom-alert-overlay.active .custom-alert-box {
+            transform: scale(1);
+        }
+
+        .custom-alert-box .alert-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .custom-alert-box .alert-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .custom-alert-box .alert-msg {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .custom-alert-box .alert-btn {
+            padding: 10px 30px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .action-card {
+            background: var(--surface-solid);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .action-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .action-card.inc-card {
+            color: var(--success-color);
+        }
+        .action-card.exp-card {
+            color: var(--danger-color);
+        }
+
+        #prompt-input {
+            background: var(--bg-color);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+    <div class="app-container">
+        <!-- Custom Alert Overlay -->
+        <div class="custom-alert-overlay" id="custom-alert">
+            <div class="custom-alert-box">
+                <div class="alert-icon" id="alert-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="alert-title" id="alert-title">Notice</div>
+                <div class="alert-msg" id="alert-msg">Message here</div>
+                <div style="display: flex; justify-content: center;">
+                    <button class="alert-btn" onclick="app.closeAlert()">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Confirm Overlay -->
+        <div class="custom-alert-overlay" id="custom-confirm">
+            <div class="custom-alert-box">
+                <div class="alert-icon"><i class="fas fa-question-circle" style="color:var(--warning-color)"></i></div>
+                <div class="alert-title" id="confirm-title">Confirm</div>
+                <div class="alert-msg" id="confirm-msg">Are you sure?</div>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button class="alert-btn" style="background:var(--text-secondary);" onclick="app.closeConfirm(false)">Cancel</button>
+                    <button class="alert-btn" style="background:var(--danger-color);" onclick="app.closeConfirm(true)">Yes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Prompt Overlay -->
+        <div class="custom-alert-overlay" id="custom-prompt">
+            <div class="custom-alert-box">
+                <div class="alert-title" id="prompt-title">Enter Value</div>
+                <div class="alert-msg" id="prompt-msg"></div>
+                <input type="text" id="prompt-input" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid var(--border-color); border-radius:var(--radius-sm); outline:none;">
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button class="alert-btn" style="background:var(--text-secondary);" onclick="app.closePrompt(null)">Cancel</button>
+                    <button class="alert-btn" onclick="app.closePrompt(document.getElementById('prompt-input').value)">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login View -->
+        <div id="login-view">
+            <div class="login-logo"><i class="fas fa-wallet"></i></div>
+            <div class="login-title">Finance Tracker</div>
+            <div class="login-subtitle">Secure & Simple</div>
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="login-user" placeholder="Enter username" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="login-pass" placeholder="Enter password">
+            </div>
+            <div class="input-group" style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" id="remember-me" style="width:auto;">
+                <label style="margin:0;">Remember me</label>
+            </div>
+            <button class="btn btn-primary" onclick="app.login()">Login</button>
+        </div>
+
+        <!-- App View -->
+        <div id="app-view" class="hide" style="height: 100%; display: flex; flex-direction: column;">
+            <!-- Top Header -->
+            <div class="top-header glass">
+                <div class="header-title" id="top-title">Dashboard</div>
+                <div class="header-actions">
+                    <i class="fas fa-bell" onclick="app.showAlert('Notifications', 'No new notifications', 'info')"></i>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content" id="main-content">
+                <!-- Dashboard Page -->
+                <div id="page-dash" class="page fade-in">
+                    <div class="balance-card">
+                        <div class="savings-badge" id="dash-savings">0% Saved</div>
+                        <div class="balance-label">Total Balance</div>
+                        <div class="balance-amount" id="dash-balance">$0.00</div>
+                        <div class="balance-stats">
+                            <div class="stat-col">
+                                <div class="stat-label">Income (<span class="current-month-lbl"></span>)</div>
+                                <div class="stat-val" id="dash-income">+$0.00</div>
+                            </div>
+                            <div class="stat-col" style="text-align: right;">
+                                <div class="stat-label">Expense (<span class="current-month-lbl"></span>)</div>
+                                <div class="stat-val" id="dash-expense">-$0.00</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="expenseChart" height="200"></canvas>
+                    </div>
+                    <div class="section-title">
+                        <span>Recent Transactions</span>
+                        <span style="font-size:0.8rem; color:var(--primary-color); cursor:pointer;" onclick="app.nav('hist')">See All</span>
+                    </div>
+                    <div class="tx-list" id="recent-tx-list"></div>
+                </div>
+
+                <!-- Income Page -->
+                <div id="page-inc" class="page hide fade-in">
+                    <div class="balance-card" style="background: linear-gradient(135deg, var(--success-color), #059669);">
+                        <div class="balance-label">Total Income</div>
+                        <div class="balance-amount" id="inc-total">$0.00</div>
+                    </div>
+                    <button class="btn btn-primary" style="background: var(--success-color); margin-bottom:20px;" onclick="app.openModal('inc-modal')">
+                        <i class="fas fa-plus"></i> Add Income
+                    </button>
+                    <div class="section-title">Income History</div>
+                    <div class="tx-list" id="inc-list"></div>
+                </div>
+
+                <!-- Expense Page -->
+                <div id="page-exp" class="page hide fade-in">
+                    <div class="balance-card" style="background: linear-gradient(135deg, var(--danger-color), #b91c1c);">
+                        <div class="balance-label">Total Expenses</div>
+                        <div class="balance-amount" id="exp-total">$0.00</div>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-bottom:20px;">
+                        <button class="btn btn-primary" style="flex:1; background: var(--danger-color);" onclick="app.openModal('exp-modal')">
+                            <i class="fas fa-plus"></i> Add Expense
+                        </button>
+                        <button class="btn" style="flex:1; background:var(--surface-solid); color:var(--text-primary); border:1px solid var(--border-color);" onclick="app.searchExpense()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <div class="section-title">Expense History</div>
+                    <div class="tx-list" id="exp-list"></div>
+                </div>
+
+                <!-- History Page -->
+                <div id="page-hist" class="page hide fade-in">
+                    <div class="history-filters" id="hist-filters"></div>
+                    <div class="action-grid" style="margin-bottom: 20px;">
+                        <div class="action-card" onclick="app.exportPDF()" style="padding:15px;">
+                            <i class="fas fa-file-pdf" style="color:#ef4444; font-size:1.5rem; margin-bottom:5px;"></i>
+                            <div style="font-size:0.8rem; font-weight:600;">Export PDF</div>
+                        </div>
+                        <div class="action-card" onclick="app.shareTelegram()" style="padding:15px;">
+                            <div style="font-size:0.8rem; font-weight:600;">Share Report</div>
+                        </div>
+                    </div>
+                    <div class="section-title">Transactions (<span id="hist-month-lbl"></span>)</div>
+                    <div class="tx-list" id="hist-list"></div>
+                </div>
+
+                <!-- Profile Page -->
+                <div id="page-prof" class="page hide fade-in">
+                    <div class="profile-header">
+                        <div class="avatar"><i class="fas fa-user-tie"></i></div>
+                        <div class="profile-name" id="prof-name">Admin</div>
+                        <div class="profile-joined" id="prof-joined">Joined: May 2026</div>
+                    </div>
+                    <div class="settings-group">
+                        <div class="section-title">Preferences</div>
+                        <div class="settings-item">
+                            <div>
+                                <div style="font-weight:500;">Display Name</div>
+                                <div style="font-size:0.8rem; color:var(--text-secondary);">Change your display name</div>
+                            </div>
+                            <i class="fas fa-edit" style="color:var(--primary-color); cursor:pointer;" onclick="app.editName()"></i>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div style="font-weight:500;">Currency</div>
+                            </div>
+                            <select id="currency-select" onchange="app.changeCurrency()" style="width:auto; padding:5px; border-radius:5px; background:var(--bg-color); color:var(--text-primary); border:1px solid var(--border-color); outline:none;">
+                                <option value="USD">USD ($)</option>
+                                <option value="MMK">MMK (Ks)</option>
+                                <option value="EUR">EUR (€)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <div class="section-title">Theme</div>
+                        <div class="settings-item" style="display:block;">
+                            <div style="font-weight:500; margin-bottom:10px;">Select Theme</div>
+                            <div class="theme-selector">
+                                <div class="theme-option active" data-theme="light" onclick="app.setTheme('light')">
+                                    <div class="theme-swatch swatch-light"></div>
+                                    <span>Light</span>
+                                </div>
+                                <div class="theme-option" data-theme="lightbrown" onclick="app.setTheme('lightbrown')">
+                                    <div class="theme-swatch swatch-lightbrown"></div>
+                                    <span>Light Brown</span>
+                                </div>
+                                <div class="theme-option" data-theme="midnight" onclick="app.setTheme('midnight')">
+                                    <div class="theme-swatch swatch-midnight"></div>
+                                    <span>Midnight</span>
+                                </div>
+                                <div class="theme-option" data-theme="emerald" onclick="app.setTheme('emerald')">
+                                    <div class="theme-swatch swatch-emerald"></div>
+                                    <span>Emerald</span>
+                                </div>
+                                <div class="theme-option" data-theme="rosegold" onclick="app.setTheme('rosegold')">
+                                    <div class="theme-swatch swatch-rosegold"></div>
+                                    <span>Rose Gold</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dev-contact">
+                        <div class="dev-contact-title">Developer Contact</div>
+                        <a class="dev-contact-item" href="https://t.me/aung_myat_minn" target="_blank">
+                            <i class="fa-brands fa-telegram"></i>
+                            <span>@aung_myat_minn</span>
+                        </a>
+                        <a class="dev-contact-item" href="mailto:aungmyatminnx@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                            <span>aungmyatminnx@gmail.com</span>
+                        </a>
+                    </div>
+                    <button class="btn" style="background:var(--danger-color); color:#fff; margin-top:20px;" onclick="app.logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Floating Action Button -->
+            <div class="fab" id="main-fab" onclick="app.openModal('action-modal')"><i class="fas fa-plus"></i></div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav glass">
+                <div class="nav-item active" id="nav-dash" onclick="app.nav('dash')"><i class="fas fa-home"></i>Dash</div>
+                <div class="nav-item" id="nav-inc" onclick="app.nav('inc')"><i class="fas fa-arrow-down"></i>Income</div>
+                <div class="nav-item" id="nav-exp" onclick="app.nav('exp')"><i class="fas fa-arrow-up"></i>Expense</div>
+                <div class="nav-item" id="nav-hist" onclick="app.nav('hist')"><i class="fas fa-history"></i>History</div>
+                <div class="nav-item" id="nav-prof" onclick="app.nav('prof')"><i class="fas fa-user"></i>Profile</div>
+            </nav>
+        </div>
+
+        <!-- Action Modal -->
+        <div class="modal-overlay" id="action-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Add Transaction</div>
+                    <i class="fas fa-times close-modal" onclick="app.closeModal('action-modal')"></i>
+                </div>
+                <div class="action-grid">
+                    <div class="action-card inc-card" onclick="app.closeModal('action-modal'); app.openModal('inc-modal')">
+                        <i class="fas fa-arrow-down"></i>
+                        <div>Income</div>
+                    </div>
+                    <div class="action-card exp-card" onclick="app.closeModal('action-modal'); app.openModal('exp-modal')">
+                        <i class="fas fa-arrow-up"></i>
+                        <div>Expense</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income Modal -->
+        <div class="modal-overlay" id="inc-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="inc-modal-title">Add Income</div>
+                    <i class="fas fa-times close-modal" onclick="app.closeModal('inc-modal')"></i>
+                </div>
+                <input type="hidden" id="inc-id">
+                <div class="input-group">
+                    <label>Amount</label>
+                    <input type="number" id="inc-amount" placeholder="0.00">
+                </div>
+                <div class="input-group">
+                    <label>Income Type</label>
+                    <select id="inc-type">
+                        <option value="Base Salary">Base Salary</option>
+                        <option value="Bonus">Bonus</option>
+                        <option value="Extra Income">Extra Income</option>
+                        <option value="Other Earnings">Other Earnings</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Date</label>
+                    <input type="date" id="inc-date">
+                </div>
+                <div class="input-group">
+                    <label>Note</label>
+                    <input type="text" id="inc-note" placeholder="Optional note">
+                </div>
+                <button class="btn btn-primary" style="background:var(--success-color);" onclick="app.saveIncome()">Save Income</button>
+            </div>
+        </div>
+
+        <!-- Expense Modal -->
+        <div class="modal-overlay" id="exp-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="exp-modal-title">Add Expense</div>
+                    <i class="fas fa-times close-modal" onclick="app.closeModal('exp-modal')"></i>
+                </div>
+                <input type="hidden" id="exp-id">
+                <div class="input-group">
+                    <label>Amount</label>
+                    <input type="number" id="exp-amount" placeholder="0.00">
+                </div>
+                <div class="input-group">
+                    <label>Category</label>
+                    <select id="exp-cat" onchange="app.toggleCustomCat()">
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Health">Health</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Family">Family</option>
+                        <option value="Other">Other</option>
+                        <option value="Custom">Custom...</option>
+                    </select>
+                </div>
+                <div class="input-group hide" id="exp-custom-cat-group">
+                    <label>Custom Category</label>
+                    <input type="text" id="exp-custom-cat" placeholder="Enter category">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <input type="text" id="exp-desc" placeholder="What did you buy?">
+                </div>
+                <div class="input-group">
+                    <label>Payment Type</label>
+                    <select id="exp-pay">
+                        <option value="Cash">Cash</option>
+                        <option value="KBZPay">KBZPay</option>
+                        <option value="Wave">Wave</option>
+                        <option value="Card">Card</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Date</label>
+                    <input type="date" id="exp-date">
+                </div>
+                <div class="input-group">
+                    <label>Note (Optional)</label>
+                    <input type="text" id="exp-note" placeholder="Additional details">
+                </div>
+                <button class="btn btn-primary" style="background:var(--danger-color);" onclick="app.saveExpense()">Save Expense</button>
+            </div>
+        </div>
+
+        <!-- Transaction Detail Modal -->
+        <div class="modal-overlay" id="tx-detail-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Transaction Details</div>
+                    <i class="fas fa-times close-modal" onclick="app.closeModal('tx-detail-modal')"></i>
+                </div>
+                <input type="hidden" id="detail-tx-id">
+                <input type="hidden" id="detail-tx-type">
+                <div style="text-align:center; margin-bottom:20px;">
+                    <div id="detail-amount" style="font-size:2rem; font-weight:700;"></div>
+                    <div id="detail-title" style="color:var(--text-primary);"></div>
+                    <div id="detail-date" style="font-size:0.8rem; color:var(--text-secondary); margin-top:5px;"></div>
+                </div>
+                <div class="action-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                    <div class="action-card" onclick="app.editTx()" style="padding:10px;">
+                        <i class="fas fa-edit" style="font-size:1.2rem; color:var(--primary-color);"></i>
+                        <div style="font-size:0.8rem;">Edit</div>
+                    </div>
+                    <div class="action-card" onclick="app.duplicateTx()" style="padding:10px;">
+                        <i class="fas fa-copy" style="font-size:1.2rem; color:var(--primary-color);"></i>
+                        <div style="font-size:0.8rem;">Dup</div>
+                    </div>
+                    <div class="action-card" onclick="app.deleteTx()" style="padding:10px;">
+                        <i class="fas fa-trash" style="font-size:1.2rem; color:var(--danger-color);"></i>
+                        <div style="font-size:0.8rem; color:var(--danger-color);">Del</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = {
+            data: {
+                tx: [],
+                settings: { theme: 'light', currency: 'USD', displayName: 'Admin', joined: '' },
+                currentMonthStr: ''
+            },
+            chartInst: null,
+            confirmResolve: null,
+            promptResolve: null,
+
+            init() {
+                this.blockDefaultBehaviors();
+                this.loadData();
+                this.applySettings();
+
+                const now = new Date();
+                this.data.currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+                document.getElementById('inc-date').valueAsDate = now;
+                document.getElementById('exp-date').valueAsDate = now;
+
+                if (localStorage.getItem('isLoggedIn') === 'true') {
+                    this.showApp();
+                } else {
+                    document.getElementById('login-user').value = localStorage.getItem('remUser') || '';
+                    document.getElementById('login-pass').value = localStorage.getItem('remPass') || '';
+                    if (localStorage.getItem('remUser')) document.getElementById('remember-me').checked = true;
+                }
+            },
+
+            blockDefaultBehaviors() {
+                document.addEventListener('contextmenu', e => {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+                });
+            },
+
+            loadData() {
+                this.data.tx = JSON.parse(localStorage.getItem('sm_tx')) || [];
+                this.data.settings = JSON.parse(localStorage.getItem('sm_settings')) || this.data.settings;
+                if (!this.data.settings.joined) {
+                    const now = new Date();
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    this.data.settings.joined = `${months[now.getMonth()]} ${now.getFullYear()}`;
+                    this.saveData();
+                }
+            },
+
+            saveData() {
+                localStorage.setItem('sm_tx', JSON.stringify(this.data.tx));
+                localStorage.setItem('sm_settings', JSON.stringify(this.data.settings));
+            },
+
+            login() {
+                const u = document.getElementById('login-user').value;
+                const p = document.getElementById('login-pass').value;
+                const r = document.getElementById('remember-me').checked;
+
+                if (u === 'admin' && p === 'admin2026') {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    if (r) {
+                        localStorage.setItem('remUser', u);
+                        localStorage.setItem('remPass', p);
+                    } else {
+                        localStorage.removeItem('remUser');
+                        localStorage.removeItem('remPass');
+                    }
+                    this.showApp();
+                } else {
+                    this.showAlert('Login Failed', 'Invalid credentials', 'error');
+                }
+            },
+
+            logout() {
+                localStorage.setItem('isLoggedIn', 'false');
+                document.getElementById('app-view').classList.add('hide');
+                document.getElementById('login-view').classList.remove('hide');
+            },
+
+            showApp() {
+                document.getElementById('login-view').classList.add('hide');
+                document.getElementById('app-view').classList.remove('hide');
+                this.nav('dash');
+            },
+
+            nav(page) {
+                ['dash', 'inc', 'exp', 'hist', 'prof'].forEach(p => {
+                    document.getElementById(`page-${p}`).classList.add('hide');
+                    document.getElementById(`nav-${p}`).classList.remove('active');
+                });
+
+                document.getElementById(`page-${page}`).classList.remove('hide');
+                document.getElementById(`nav-${page}`).classList.add('active');
+                document.getElementById('main-content').scrollTop = 0;
+
+                if (page === 'dash') {
+                    document.getElementById('top-title').innerText = 'Dashboard';
+                    document.getElementById('main-fab').classList.remove('hide');
+                    this.renderDash();
+                } else if (page === 'inc') {
+                    document.getElementById('top-title').innerText = 'Income';
+                    document.getElementById('main-fab').classList.add('hide');
+                    this.renderInc();
+                } else if (page === 'exp') {
+                    document.getElementById('top-title').innerText = 'Expenses';
+                    document.getElementById('main-fab').classList.add('hide');
+                    this.renderExp();
+                } else if (page === 'hist') {
+                    document.getElementById('top-title').innerText = 'History';
+                    document.getElementById('main-fab').classList.add('hide');
+                    this.renderHist();
+                } else if (page === 'prof') {
+                    document.getElementById('top-title').innerText = 'Profile';
+                    document.getElementById('main-fab').classList.add('hide');
+                    this.renderProf();
+                }
+            },
+
+            openModal(id) {
+                document.getElementById(id).classList.add('active');
+            },
+
+            closeModal(id) {
+                document.getElementById(id).classList.remove('active');
+                if (id === 'inc-modal' || id === 'exp-modal') this.resetForms();
+            },
+
+            toggleCustomCat() {
+                const val = document.getElementById('exp-cat').value;
+                const customGrp = document.getElementById('exp-custom-cat-group');
+                if (val === 'Custom') customGrp.classList.remove('hide');
+                else customGrp.classList.add('hide');
+            },
+
+            resetForms() {
+                document.getElementById('inc-id').value = '';
+                document.getElementById('inc-amount').value = '';
+                document.getElementById('inc-note').value = '';
+                document.getElementById('inc-modal-title').innerText = 'Add Income';
+
+                document.getElementById('exp-id').value = '';
+                document.getElementById('exp-amount').value = '';
+                document.getElementById('exp-desc').value = '';
+                document.getElementById('exp-note').value = '';
+                document.getElementById('exp-cat').value = 'Food';
+                document.getElementById('exp-custom-cat').value = '';
+                this.toggleCustomCat();
+                document.getElementById('exp-modal-title').innerText = 'Add Expense';
+            },
+
+            formatMoney(amount) {
+                const sym = this.data.settings.currency === 'MMK' ? 'Ks' : (this.data.settings.currency === 'EUR' ? '€' : '$');
+                return sym + parseFloat(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            },
+
+            getIcon(cat, type) {
+                if (type === 'inc') return '<i class="fas fa-arrow-down"></i>';
+                const map = {
+                    'Food': 'fa-hamburger',
+                    'Transport': 'fa-car',
+                    'Shopping': 'fa-shopping-bag',
+                    'Bills': 'fa-file-invoice-dollar',
+                    'Education': 'fa-book',
+                    'Health': 'fa-heartbeat',
+                    'Entertainment': 'fa-film',
+                    'Family': 'fa-home'
+                };
+                return `<i class="fas ${map[cat] || 'fa-tag'}"></i>`;
+            },
+
+            saveIncome() {
+                const amt = document.getElementById('inc-amount').value;
+                if (!amt || amt <= 0) return this.showAlert('Error', 'Enter valid amount', 'error');
+
+                const tx = {
+                    id: document.getElementById('inc-id').value || Date.now().toString(),
+                    type: 'inc',
+                    amount: parseFloat(amt),
+                    title: document.getElementById('inc-type').value,
+                    date: document.getElementById('inc-date').value,
+                    note: document.getElementById('inc-note').value,
+                    monthStr: document.getElementById('inc-date').value.substring(0, 7)
+                };
+
+                this.saveTx(tx);
+                this.closeModal('inc-modal');
+                this.refreshCurrentView();
+                this.showAlert('Success', 'Income added successfully', 'success');
+            },
+
+            saveExpense() {
+                const amt = document.getElementById('exp-amount').value;
+                if (!amt || amt <= 0) return this.showAlert('Error', 'Enter valid amount', 'error');
+
+                let cat = document.getElementById('exp-cat').value;
+                if (cat === 'Custom') cat = document.getElementById('exp-custom-cat').value || 'Other';
+
+                const tx = {
+                    id: document.getElementById('exp-id').value || Date.now().toString(),
+                    type: 'exp',
+                    amount: parseFloat(amt),
+                    title: document.getElementById('exp-desc').value || cat,
+                    category: cat,
+                    payType: document.getElementById('exp-pay').value,
+                    date: document.getElementById('exp-date').value,
+                    note: document.getElementById('exp-note').value,
+                    monthStr: document.getElementById('exp-date').value.substring(0, 7)
+                };
+
+                this.saveTx(tx);
+                this.closeModal('exp-modal');
+                this.refreshCurrentView();
+                this.showAlert('Success', 'Expense added successfully', 'success');
+            },
+
+            saveTx(tx) {
+                const idx = this.data.tx.findIndex(t => t.id === tx.id);
+                if (idx >= 0) this.data.tx[idx] = tx;
+                else this.data.tx.push(tx);
+
+                this.data.tx.sort((a, b) => new Date(b.date) - new Date(a.date));
+                this.saveData();
+            },
+
+            openTxDetail(id) {
+                const tx = this.data.tx.find(t => t.id === id);
+                if (!tx) return;
+
+                document.getElementById('detail-tx-id').value = tx.id;
+                document.getElementById('detail-tx-type').value = tx.type;
+
+                const color = tx.type === 'inc' ? 'var(--success-color)' : 'var(--danger-color)';
+                document.getElementById('detail-amount').innerHTML = `<span style="color:${color}">${tx.type === 'inc' ? '+' : '-'}${this.formatMoney(tx.amount)}</span>`;
+                document.getElementById('detail-title').innerText = tx.title;
+                document.getElementById('detail-date').innerText = tx.date + (tx.category ? ` • ${tx.category} • ${tx.payType}` : '');
+
+                this.openModal('tx-detail-modal');
+            },
+
+            editTx() {
+                const id = document.getElementById('detail-tx-id').value;
+                const tx = this.data.tx.find(t => t.id === id);
+                this.closeModal('tx-detail-modal');
+
+                if (tx.type === 'inc') {
+                    document.getElementById('inc-id').value = tx.id;
+                    document.getElementById('inc-amount').value = tx.amount;
+                    document.getElementById('inc-type').value = tx.title;
+                    document.getElementById('inc-date').value = tx.date;
+                    document.getElementById('inc-note').value = tx.note || '';
+                    document.getElementById('inc-modal-title').innerText = 'Edit Income';
+                    this.openModal('inc-modal');
+                } else {
+                    document.getElementById('exp-id').value = tx.id;
+                    document.getElementById('exp-amount').value = tx.amount;
+                    document.getElementById('exp-desc').value = tx.title !== tx.category ? tx.title : '';
+                    document.getElementById('exp-date').value = tx.date;
+                    document.getElementById('exp-pay').value = tx.payType;
+                    document.getElementById('exp-note').value = tx.note || '';
+
+                    const sel = document.getElementById('exp-cat');
+                    let found = false;
+                    for (let i = 0; i < sel.options.length; i++) {
+                        if (sel.options[i].value === tx.category) { found = true; break; }
+                    }
+
+                    if (found) {
+                        sel.value = tx.category;
+                        this.toggleCustomCat();
+                    } else {
+                        sel.value = 'Custom';
+                        this.toggleCustomCat();
+                        document.getElementById('exp-custom-cat').value = tx.category;
+                    }
+
+                    document.getElementById('exp-modal-title').innerText = 'Edit Expense';
+                    this.openModal('exp-modal');
+                }
+            },
+
+            async deleteTx() {
+                const ok = await this.showConfirm('Confirm Delete', 'Are you sure you want to delete this transaction?');
+                if (!ok) return;
+
+                const id = document.getElementById('detail-tx-id').value;
+                this.data.tx = this.data.tx.filter(t => t.id !== id);
+                this.saveData();
+                this.closeModal('tx-detail-modal');
+                this.refreshCurrentView();
+                this.showAlert('Deleted', 'Transaction deleted successfully', 'success');
+            },
+
+            duplicateTx() {
+                const id = document.getElementById('detail-tx-id').value;
+                const tx = Object.assign({}, this.data.tx.find(t => t.id === id));
+
+                tx.id = Date.now().toString();
+                tx.date = new Date().toISOString().split('T')[0];
+                tx.monthStr = tx.date.substring(0, 7);
+
+                this.saveTx(tx);
+                this.closeModal('tx-detail-modal');
+                this.refreshCurrentView();
+                this.showAlert('Duplicated', 'Transaction duplicated', 'success');
+            },
+
+            refreshCurrentView() {
+                if (!document.getElementById('page-dash').classList.contains('hide')) this.renderDash();
+                if (!document.getElementById('page-inc').classList.contains('hide')) this.renderInc();
+                if (!document.getElementById('page-exp').classList.contains('hide')) this.renderExp();
+                if (!document.getElementById('page-hist').classList.contains('hide')) this.renderHist();
+            },
+
+            renderTxList(containerId, txArray, limit = null) {
+                const c = document.getElementById(containerId);
+                c.innerHTML = '';
+
+                if (txArray.length === 0) {
+                    c.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><div>No transactions found</div></div>';
+                    return;
+                }
+
+                const arr = limit ? txArray.slice(0, limit) : txArray;
+
+                arr.forEach(t => {
+                    const isInc = t.type === 'inc';
+                    c.innerHTML += `
+                        <div class="tx-item" onclick="app.openTxDetail('${t.id}')">
+                            <div class="tx-icon ${t.type}">${this.getIcon(t.category, t.type)}</div>
+                            <div class="tx-details">
+                                <div class="tx-title">${t.title}</div>
+                                <div class="tx-date">${t.date} ${t.category ? `• ${t.category}` : ''}</div>
+                            </div>
+                            <div class="tx-amount ${isInc ? 'amount-in' : 'amount-out'}">${isInc ? '+' : '-'}${this.formatMoney(t.amount)}</div>
+                        </div>
+                    `;
+                });
+            },
+
+            renderDash() {
+                const m = this.data.currentMonthStr;
+                document.querySelectorAll('.current-month-lbl').forEach(e => e.innerText = this.formatMonthStr(m));
+
+                const mTx = this.data.tx.filter(t => t.monthStr === m);
+                let inc = 0,
+                    exp = 0;
+
+                mTx.forEach(t => {
+                    if (t.type === 'inc') inc += t.amount;
+                    else exp += t.amount;
+                });
+
+                const bal = inc - exp;
+                const sav = inc > 0 ? Math.max(0, Math.round(((inc - exp) / inc) * 100)) : 0;
+
+                document.getElementById('dash-income').innerText = `+${this.formatMoney(inc)}`;
+                document.getElementById('dash-expense').innerText = `-${this.formatMoney(exp)}`;
+                document.getElementById('dash-balance').innerText = this.formatMoney(bal);
+                document.getElementById('dash-savings').innerText = `${sav}% Saved`;
+
+                this.renderTxList('recent-tx-list', this.data.tx, 5);
+                this.renderChart(mTx);
+            },
+
+            renderChart(mTx) {
+                const ctx = document.getElementById('expenseChart').getContext('2d');
+                if (this.chartInst) this.chartInst.destroy();
+
+                const expTx = mTx.filter(t => t.type === 'exp');
+                if (expTx.length === 0) return;
+
+                const cats = {};
+                expTx.forEach(t => { cats[t.category] = (cats[t.category] || 0) + t.amount; });
+
+                const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#64748b'];
+
+                this.chartInst = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(cats),
+                        datasets: [{ data: Object.values(cats), backgroundColor: colors.slice(0, Object.keys(cats).length), borderWidth: 0 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: { color: getComputedStyle(document.body).getPropertyValue('--text-primary').trim() }
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            },
+
+            renderInc() {
+                const incTx = this.data.tx.filter(t => t.type === 'inc');
+                const total = incTx.reduce((s, t) => s + t.amount, 0);
+                document.getElementById('inc-total').innerText = this.formatMoney(total);
+                this.renderTxList('inc-list', incTx);
+            },
+
+            renderExp() {
+                const expTx = this.data.tx.filter(t => t.type === 'exp');
+                const total = expTx.reduce((s, t) => s + t.amount, 0);
+                document.getElementById('exp-total').innerText = this.formatMoney(total);
+                this.renderTxList('exp-list', expTx);
+            },
+
+            async searchExpense() {
+                const q = await this.showPrompt('Search', 'Search expenses by title or category:');
+                if (!q) return;
+
+                const res = this.data.tx.filter(t => t.type === 'exp' && (t.title.toLowerCase().includes(q.toLowerCase()) || t.category.toLowerCase().includes(q.toLowerCase())));
+                this.renderTxList('exp-list', res);
+            },
+
+            renderHist() {
+                if (this.data.tx.length === 0) {
+                    document.getElementById('hist-filters').innerHTML = '';
+                    document.getElementById('hist-month-lbl').innerText = 'No Data';
+                    this.renderTxList('hist-list', []);
+                    return;
+                }
+
+                const months = [...new Set(this.data.tx.map(t => t.monthStr))].sort().reverse();
+                if (!this.currentHistMonth || !months.includes(this.currentHistMonth)) this.currentHistMonth = months[0];
+
+                const fc = document.getElementById('hist-filters');
+                fc.innerHTML = '';
+
+                months.forEach(m => {
+                    const div = document.createElement('div');
+                    div.className = `filter-chip ${m === this.currentHistMonth ? 'active' : ''}`;
+                    div.innerText = this.formatMonthStr(m);
+                    div.onclick = () => {
+                        this.currentHistMonth = m;
+                        this.renderHist();
+                    };
+                    fc.appendChild(div);
+                });
+
+                document.getElementById('hist-month-lbl').innerText = this.formatMonthStr(this.currentHistMonth);
+                const mTx = this.data.tx.filter(t => t.monthStr === this.currentHistMonth);
+                this.renderTxList('hist-list', mTx);
+            },
+
+            formatMonthStr(str) {
+                if (!str) return '';
+                const [y, m] = str.split('-');
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return `${months[parseInt(m) - 1]} ${y}`;
+            },
+
+            getFullMonthStr(str) {
+                if (!str) return '';
+                const [y, m] = str.split('-');
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                return `${y}_${months[parseInt(m) - 1]}`;
+            },
+
+            renderProf() {
+                document.getElementById('prof-name').innerText = this.data.settings.displayName;
+                document.getElementById('prof-joined').innerText = `Joined: ${this.data.settings.joined}`;
+                document.getElementById('currency-select').value = this.data.settings.currency;
+
+                document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('active'));
+                const activeTheme = document.querySelector(`.theme-option[data-theme="${this.data.settings.theme}"]`);
+                if (activeTheme) activeTheme.classList.add('active');
+            },
+
+            async editName() {
+                const n = await this.showPrompt('Edit Name', 'Enter new display name:', this.data.settings.displayName);
+                if (n) {
+                    this.data.settings.displayName = n;
+                    this.saveData();
+                    this.renderProf();
+                }
+            },
+
+            changeCurrency() {
+                this.data.settings.currency = document.getElementById('currency-select').value;
+                this.saveData();
+                this.refreshCurrentView();
+            },
+
+            setTheme(theme) {
+                this.data.settings.theme = theme;
+                this.applySettings();
+                this.saveData();
+                this.renderProf();
+                if (!document.getElementById('page-dash').classList.contains('hide')) this.renderDash();
+            },
+
+            applySettings() {
+                document.body.setAttribute('data-theme', this.data.settings.theme);
+                const stMeta = document.createElement('meta');
+                stMeta.name = 'theme-color';
+                stMeta.content = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
+                document.head.appendChild(stMeta);
+            },
+
+            exportPDF() {
+                if (!this.currentHistMonth) return this.showAlert('Error', 'No data to export', 'error');
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                const mStr = this.currentHistMonth;
+                const fMonth = this.getFullMonthStr(mStr);
+                const mTx = this.data.tx.filter(t => t.monthStr === mStr);
+
+                let inc = 0,
+                    exp = 0;
+                mTx.forEach(t => {
+                    if (t.type === 'inc') inc += t.amount;
+                    else exp += t.amount;
+                });
+
+                const bal = inc - exp;
+                const sav = inc > 0 ? Math.max(0, Math.round(((inc - exp) / inc) * 100)) : 0;
+
+                doc.setFillColor(59, 130, 246);
+                doc.rect(0, 0, 210, 40, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(22);
+                doc.text('Finance Report', 15, 25);
+
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`${this.formatMonthStr(mStr)} • ${this.data.settings.displayName}`, 15, 33);
+
+                doc.setTextColor(0, 0, 0);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(14);
+                doc.text('Summary', 15, 55);
+
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`Total Income: ${this.formatMoney(inc)}`, 15, 65);
+                doc.text(`Total Expense: ${this.formatMoney(exp)}`, 15, 72);
+
+                doc.setFont('helvetica', 'bold');
+                doc.text(`Net Balance: ${this.formatMoney(bal)}`, 15, 79);
+                doc.text(`Savings Rate: ${sav}%`, 15, 86);
+
+                const tableData = mTx.slice(0, 20).map(t => [
+                    t.date,
+                    t.type === 'inc' ? 'Income' : 'Expense',
+                    t.title,
+                    t.category || '-',
+                    `${t.type === 'inc' ? '+' : '-'}${this.formatMoney(t.amount)}`
+                ]);
+
+                if (mTx.length > 20) tableData.push(['...', '...', '...', '...', '...']);
+
+                doc.autoTable({
+                    startY: 95,
+                    head: [
+                        ['Date', 'Type', 'Description', 'Category', 'Amount']
+                    ],
+                    body: tableData,
+                    theme: 'striped',
+                    headStyles: { fillColor: [59, 130, 246] },
+                    styles: { fontSize: 9 }
+                });
+
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text('Generated by Finance Tracker', 15, 290);
+
+                doc.save(`${fMonth}_Expenses.pdf`);
+            },
+
+            shareTelegram() {
+                if (!this.currentHistMonth) return;
+
+                const mStr = this.currentHistMonth;
+                const mTx = this.data.tx.filter(t => t.monthStr === mStr);
+
+                let inc = 0,
+                    exp = 0;
+                mTx.forEach(t => {
+                    if (t.type === 'inc') inc += t.amount;
+                    else exp += t.amount;
+                });
+
+                const bal = inc - exp;
+                const text = `📊 *Finance Report: ${this.formatMonthStr(mStr)}*\n\n🟢 Income: ${this.formatMoney(inc)}\n🔴 Expense: ${this.formatMoney(exp)}\n💰 Balance: ${this.formatMoney(bal)}`;
+
+                const url = `https://t.me/share/url?text=${encodeURIComponent(text)}`;
+                window.open(url, '_blank');
+            },
+
+            /* CUSTOM ALERT / MODAL HELPERS */
+            showAlert(title, msg, type = 'info') {
+                document.getElementById('alert-title').innerText = title;
+                document.getElementById('alert-msg').innerText = msg;
+
+                const iconContainer = document.getElementById('alert-icon');
+                if (type === 'error') {
+                    iconContainer.innerHTML = '<i class="fas fa-exclamation-circle" style="color:var(--danger-color)"></i>';
+                } else if (type === 'success') {
+                    iconContainer.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success-color)"></i>';
+                } else {
+                    iconContainer.innerHTML = '<i class="fas fa-info-circle" style="color:var(--primary-color)"></i>';
+                }
+
+                document.getElementById('custom-alert').classList.add('active');
+            },
+
+            closeAlert() {
+                document.getElementById('custom-alert').classList.remove('active');
+            },
+
+            async showConfirm(title, msg) {
+                return new Promise(resolve => {
+                    document.getElementById('confirm-title').innerText = title;
+                    document.getElementById('confirm-msg').innerText = msg;
+                    document.getElementById('custom-confirm').classList.add('active');
+                    this.confirmResolve = resolve;
+                });
+            },
+
+            closeConfirm(val) {
+                document.getElementById('custom-confirm').classList.remove('active');
+                if (this.confirmResolve) this.confirmResolve(val);
+            },
+
+            async showPrompt(title, msg, defaultVal = '') {
+                return new Promise(resolve => {
+                    document.getElementById('prompt-title').innerText = title;
+                    document.getElementById('prompt-msg').innerText = msg;
+                    document.getElementById('prompt-input').value = defaultVal;
+                    document.getElementById('custom-prompt').classList.add('active');
+                    setTimeout(() => document.getElementById('prompt-input').focus(), 100);
+                    this.promptResolve = resolve;
+                });
+            },
+
+            closePrompt(val) {
+                document.getElementById('custom-prompt').classList.remove('active');
+                if (this.promptResolve) this.promptResolve(val);
+            }
+        };
+
+        window.onload = () => app.init();
+        
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker Registered!', reg))
+            .catch(err => console.log('Service Worker Error!', err));
+          });
+        }
+
+    </script>
+</body>
+</html>
