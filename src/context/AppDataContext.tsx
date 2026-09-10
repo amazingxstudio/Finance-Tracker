@@ -113,7 +113,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       const parsed = JSON.parse(stored) as RecurringTemplate[];
       // Older saves may not have `kind` — default them to expense.
-         return parsed.map((t) => ({ ...t, kind: t.kind ?? 'exp' }));
+      return parsed.map((t) => ({ ...t, kind: t.kind ?? 'exp' }));
     }
     return defaultRecurringTemplates();
   });
