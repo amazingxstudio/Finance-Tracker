@@ -1,1 +1,428 @@
+/* ======================================================================
+   APP SHELL — mobile phone-frame layout (default) + desktop layout
+   ====================================================================== */
 
+.app-root {
+  height: 100dvh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-color);
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-color);
+}
+
+.top-header {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  height: 66px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+  background: var(--nav-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 0 20px;
+  transition: background 0.3s ease, border 0.3s ease;
+  /* Forces its own compositing layer so WebKit doesn't repaint this blurred
+     bar together with the scrolling/masked content behind it — this was the
+     main source of the flicker during page & modal transitions on iOS. */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.header-title-container { display: flex; flex-direction: column; }
+.header-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; }
+.month-selector-pill {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600;
+  background: var(--surface-color); padding: 3px 10px; border-radius: var(--radius-lg);
+  cursor: pointer; margin-top: 2px; width: fit-content; border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+.month-selector-pill:active { transform: scale(0.95); }
+
+.header-actions-group { display: flex; gap: 10px; align-items: center; }
+
+.streak-badge {
+  width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center;
+  font-size: 1.1rem; cursor: pointer; transition: transform 0.2s; position: relative;
+}
+.streak-badge:active { transform: scale(0.9); }
+.streak-count {
+  position: absolute; top: -3px; right: -3px; background: var(--text-primary); color: var(--bg-color);
+  font-size: 0.65rem; padding: 2px 5px; border-radius: 50%; font-weight: 800; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.streak-fire-default i { color: var(--text-primary); }
+.streak-fire-3 i { background: linear-gradient(135deg, #FFD54F, #FFB300, #FF9800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 5px rgba(255,152,0,0.5)); }
+.streak-fire-10 i { background: linear-gradient(135deg, #FFE082, #FF9800, #FF6D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 8px rgba(255,109,0,0.6)); }
+.streak-fire-30 i { background: linear-gradient(135deg, #FF7043, #F4511E, #D84315); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(216,67,21,0.7)); }
+.streak-fire-100 i { background: linear-gradient(135deg, #FF80AB, #EC407A, #C2185B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 12px rgba(194,24,91,0.8)); }
+.streak-fire-200 i { background: linear-gradient(135deg, #CE93D8, #AB47BC, #7B1FA2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(123,31,162,0.9)); animation: pulseFire 1.5s infinite alternate; }
+@keyframes pulseFire { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+.header-actions {
+  display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--surface-color); border: 1px solid var(--border-color); font-size: 1.1rem; position: relative;
+  cursor: pointer; transition: transform 0.2s;
+}
+.header-actions:active { transform: scale(0.9); }
+.notification-badge {
+  position: absolute; top: -2px; right: -2px; background: var(--danger-color); color: #fff; font-size: 0.65rem;
+  padding: 2px 5px; border-radius: 50%; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: calc(66px + 30px) 20px 20px 20px;
+  padding-bottom: calc(var(--nav-height) + 40px);
+  -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
+  transform: translateZ(0);
+}
+
+.bottom-nav {
+  position: absolute; bottom: 15px; left: 15px; right: 15px; height: var(--nav-height);
+  display: flex; justify-content: space-around; align-items: center; z-index: 20;
+  background: var(--nav-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+  padding: 0 8px; transition: background 0.3s ease, border 0.3s ease;
+  transform: translateZ(0);
+  will-change: transform;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary);
+  font-size: 0.72rem; cursor: pointer; flex: 1; height: 100%; font-weight: 500; transition: color 0.3s ease;
+  background: none; border: none;
+}
+.nav-item i { font-size: 1.3rem; margin-bottom: 4px; transition: transform 0.3s; }
+.nav-item.active { color: var(--text-primary); font-weight: 600; }
+.nav-item.active i { transform: translateY(-4px) scale(1.15); color: var(--primary-color); }
+
+.app-branding {
+  font-size: 1.85rem; font-weight: 800; letter-spacing: -0.5px; background: var(--primary-gradient);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 22px; display: inline-block;
+}
+
+.fab {
+  position: absolute; bottom: calc(var(--nav-height) + 30px); right: 20px; width: 54px; height: 54px;
+  border-radius: 50%; background: var(--primary-gradient); color: #fff; display: flex; justify-content: center;
+  align-items: center; font-size: 1.4rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); z-index: 15; cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.fab:active { transform: scale(0.9) rotate(45deg); }
+
+/* -------------------- page transitions (no flicker) --------------------
+   Only ONE page is ever mounted at a time (see Dashboard/Income/etc in
+   App.tsx), so there is never a stacked old+new page causing repaint
+   flicker. The entering page just fades/slides in via a class toggled on
+   the next animation frame after mount. */
+.page-enter {
+  opacity: 0;
+  transform: translate3d(0, 6px, 0);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.22s ease-out, transform 0.22s ease-out;
+}
+
+/* ======================================================================
+   CARDS / LISTS
+   ====================================================================== */
+
+.balance-card {
+  border-radius: var(--radius-lg); padding: 24px 20px; margin-bottom: 20px; background: var(--card-bg);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft); position: relative; overflow: hidden; transition: background 0.3s ease, border 0.3s ease;
+}
+.balance-label { font-size: 0.8rem; opacity: 0.8; text-transform: uppercase; font-weight: 500; }
+.balance-amount { font-size: 2.2rem; font-weight: 700; margin: 6px 0 16px 0; letter-spacing: -0.5px; }
+.balance-stats { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 14px; }
+.stat-col { display: flex; flex-direction: column; }
+.stat-label { font-size: 0.72rem; opacity: 0.75; margin-bottom: 2px; }
+.stat-val { font-size: 1.05rem; font-weight: 600; }
+.savings-badge {
+  position: absolute; top: 22px; right: 20px; background: var(--surface-color); padding: 4px 10px;
+  border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-color);
+}
+
+.premium-card {
+  background: var(--card-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  padding: 18px; border-radius: var(--radius-lg); margin-bottom: 20px; box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color); transition: background 0.3s ease, border 0.3s ease;
+}
+.section-title { font-size: 1rem; font-weight: 600; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+.section-title .link { font-size: 0.8rem; font-weight: 500; cursor: pointer; color: var(--text-secondary); background: none; border: none; }
+
+.tx-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.tx-item {
+  display: flex; align-items: center; padding: 14px; border-radius: var(--radius-md); background: var(--surface-color);
+  cursor: pointer; border: 1px solid var(--border-color); transition: transform 0.2s ease, background 0.2s ease;
+  width: 100%; text-align: left;
+}
+.tx-item:active { transform: scale(0.97); background: var(--surface-solid); }
+.tx-icon { width: 42px; height: 42px; border-radius: var(--radius-sm); display: flex; justify-content: center; align-items: center; font-size: 1.15rem; margin-right: 14px; flex-shrink: 0; }
+.tx-icon.inc { background: rgba(74, 222, 128, 0.15); color: var(--success-color); }
+.tx-icon.exp { background: rgba(248, 113, 113, 0.15); color: var(--danger-color); }
+.tx-details { flex: 1; overflow: hidden; }
+.tx-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 2px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.tx-date { font-size: 0.75rem; color: var(--text-secondary); }
+.tx-amount { font-weight: 700; font-size: 0.95rem; }
+.amount-in { color: var(--success-color); }
+.amount-out { color: var(--danger-color); }
+
+.chart-layout { display: flex; justify-content: space-between; align-items: stretch; width: 100%; gap: 15px; }
+.chart-info { flex: 0 0 45%; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+.chart-canvas-wrapper { flex: 1; min-height: 120px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 8px; justify-content: center; align-items: flex-end; }
+.html-bar-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; width: 100%; font-size: 0.7rem; }
+.html-bar-label { width: 50px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; font-weight: 500; }
+.html-bar-track { flex: 1; background: var(--input-bg); height: 8px; border-radius: 4px; overflow: hidden; }
+.html-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+
+.recurring-scroll-wrapper { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px 2px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; touch-action: pan-x; }
+.recurring-chip {
+  scroll-snap-align: start; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 95px; padding: 12px 8px; border-radius: var(--radius-md); background: var(--surface-color);
+  border: 1px solid var(--border-color); cursor: pointer; text-align: center; transition: transform 0.2s; user-select: none;
+}
+.recurring-chip:active { transform: scale(0.93); background: var(--surface-solid); }
+.recurring-chip i { font-size: 1.35rem; margin-bottom: 6px; pointer-events: none; }
+
+/* ======================================================================
+   MODALS / BOTTOM SHEETS
+   ====================================================================== */
+
+.modal-overlay {
+  position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); z-index: 100; display: flex; justify-content: center; align-items: flex-end;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal-content {
+  /* No blur on the sheet itself — stacking two backdrop-filters (overlay +
+     content) was the biggest cause of the slide-up flicker on iOS Safari. */
+  background: var(--modal-bg); color: var(--text-primary); width: 100%;
+  border-top-left-radius: var(--radius-lg); border-top-right-radius: var(--radius-lg);
+  padding: 24px 20px 34px 20px; transform: translate3d(0, 100%, 0);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  max-height: 85vh; overflow-y: auto; border-top: 1px solid var(--border-color);
+  box-shadow: 0 -10px 35px rgba(0,0,0,0.3); will-change: transform;
+}
+.modal-overlay.active .modal-content { transform: translate3d(0, 0, 0); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 1.1rem; font-weight: 700; }
+.close-modal {
+  font-size: 1.2rem; cursor: pointer; background: var(--surface-color); width: 34px; height: 34px; border-radius: 50%;
+  display: flex; justify-content: center; align-items: center; border: 1px solid var(--border-color); transition: transform 0.2s;
+}
+.close-modal:active { transform: scale(0.9); }
+
+.month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.month-chip { padding: 12px 6px; text-align: center; border-radius: var(--radius-md); background: var(--surface-color); border: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 500; cursor: pointer; }
+.month-chip.active { background: var(--primary-gradient); color: #fff; font-weight: 700; border: none; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.input-group label { font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); }
+.input-group input, .input-group select {
+  padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--input-bg);
+  color: inherit; outline: none; font-size: 0.9rem; -webkit-appearance: none; width: 100%;
+}
+.input-group input[readonly] { cursor: pointer; }
+
+.custom-select-box {
+  position: relative; display: flex; align-items: center; background: var(--input-bg); border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm); padding: 14px; cursor: pointer; font-size: 0.9rem; justify-content: space-between;
+  width: 100%; text-align: left;
+}
+
+.icon-selection-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 8px; }
+.icon-select-item { display: flex; align-items: center; justify-content: center; height: 44px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; font-size: 1.2rem; transition: transform 0.2s; }
+.icon-select-item:active { transform: scale(0.95); }
+.icon-select-item.selected { background: var(--primary-gradient); color: #fff; border: none; }
+
+.dp-day { padding: 10px 0; text-align: center; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; transition: 0.2s; background: var(--surface-color); border: 1px solid var(--border-color); }
+.dp-day:active { transform: scale(0.9); }
+.dp-day.today { border: 1px solid var(--primary-color); color: var(--primary-color); font-weight: bold; }
+.dp-day.selected { background: var(--primary-gradient); color: #fff; font-weight: bold; border: none; }
+
+.btn { width: 100%; padding: 14px; border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s ease; }
+.btn-primary { background: var(--primary-gradient); color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary { background: var(--surface-color); border: 1px solid var(--border-color); }
+.btn-savings { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; }
+.btn-danger { background: var(--danger-color); color: #fff; }
+
+.profile-header { text-align: center; margin-bottom: 24px; position: relative; }
+.avatar-container { position: relative; width: 95px; height: 95px; margin: 0 auto 12px auto; }
+.avatar { width: 100%; height: 100%; border-radius: 50%; background: var(--surface-color); display: flex; justify-content: center; align-items: center; font-size: 2.5rem; box-shadow: var(--shadow-soft); overflow: hidden; border: 2px solid var(--border-color); }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-edit-btn { position: absolute; bottom: 0; right: 0; background: var(--text-primary); color: var(--modal-bg); width: 28px; height: 28px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; cursor: pointer; }
+.profile-name-container { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 2px; }
+.profile-name { font-size: 1.35rem; font-weight: 700; }
+.profile-joined { font-size: 0.8rem; color: var(--text-secondary); }
+
+.settings-group { margin-bottom: 20px; }
+.settings-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--card-bg); border-radius: var(--radius-md); margin-bottom: 10px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); }
+
+.theme-accordion-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease-out; }
+.theme-accordion-wrapper.open { grid-template-rows: 1fr; }
+.theme-accordion-content { overflow: hidden; }
+.theme-option { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); background: var(--surface-color); border: 1px solid var(--border-color); cursor: pointer; font-size: 0.88rem; margin-bottom: 6px; width: 100%; text-align: left; }
+.theme-option.active { border-color: var(--primary-color); background: var(--surface-solid); font-weight: 600; }
+.theme-swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border-color); flex-shrink: 0; }
+
+.history-filters { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+.filter-chip { padding: 8px 16px; border-radius: 20px; background: var(--surface-color); font-size: 0.8rem; white-space: nowrap; cursor: pointer; border: 1px solid var(--border-color); }
+.filter-chip.active { background: var(--primary-gradient); color: #fff; font-weight: 600; border: none; }
+
+.empty-state { text-align: center; padding: 30px 15px; color: var(--text-secondary); }
+.empty-state i { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.4; }
+
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.action-card { background: var(--surface-color); padding: 16px; border-radius: var(--radius-md); text-align: center; box-shadow: var(--shadow-soft); cursor: pointer; border: 1px solid var(--border-color); transition: transform 0.2s; }
+.action-card i { font-size: 1.8rem; margin-bottom: 8px; pointer-events: none; }
+.action-card:active { transform: scale(0.95); }
+
+/* Alert / Confirm / Prompt dialogs */
+.dialog-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(6px); z-index: 500; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; padding: 0 24px; }
+.dialog-overlay.active { opacity: 1; pointer-events: all; }
+.dialog-box { background: var(--modal-bg); color: var(--text-primary); border-radius: var(--radius-lg); padding: 28px 22px 22px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35); transform: scale(0.94); transition: transform 0.2s ease-out; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 85vh; }
+.dialog-overlay.active .dialog-box { transform: scale(1); }
+.dialog-icon { font-size: 2.8rem; margin-bottom: 12px; }
+.dialog-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+.dialog-msg { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; overflow-y: auto; text-align: left; white-space: pre-line; }
+.dialog-btn-row { display: flex; gap: 10px; justify-content: center; width: 100%; }
+.dialog-btn { padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; font-size: 0.95rem; flex: 1; transition: transform 0.2s ease; background: var(--text-primary); color: var(--modal-bg); }
+.dialog-btn:active { transform: scale(0.95); }
+.dialog-btn.secondary { background: var(--surface-color); color: var(--text-primary); border: 1px solid var(--border-color); }
+.dialog-btn.danger { background: var(--danger-color); color: #fff; }
+.dialog-input { width: 100%; padding: 12px; margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); outline: none; background: var(--input-bg); color: inherit; }
+
+/* Notifications sheet — anchored bottom like a modal but taller */
+.notif-sheet .dialog-box { align-self: flex-end; border-bottom-left-radius: 0; border-bottom-right-radius: 0; max-width: 480px; width: 100%; height: 65vh; }
+.notif-sheet { align-items: flex-end; }
+.notif-header-actions { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--surface-color); border-radius: var(--radius-sm); margin-bottom: 14px; border: 1px solid var(--border-color); }
+.notif-control-btn { font-size: 0.8rem; font-weight: 600; color: var(--danger-color); background: rgba(251, 113, 133, 0.12); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(251, 113, 133, 0.2); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.notif-control-btn:disabled { color: var(--text-secondary); background: transparent; border-color: transparent; opacity: 0.4; cursor: not-allowed; }
+.notif-list-container { flex: 1; overflow-y: auto; text-align: left; margin-bottom: 18px; padding-right: 2px; display: flex; flex-direction: column; gap: 10px; }
+.notif-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px; background: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s ease; }
+.notif-item:active { transform: scale(0.98); background: var(--surface-solid); }
+.notif-checkbox { width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer; border-radius: 6px; margin-top: 2px; }
+.notif-text-wrapper { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.notif-item-msg { font-size: 0.88rem; color: var(--text-primary); line-height: 1.45; font-weight: 500; white-space: pre-line; }
+.notif-item-time { font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; gap: 4px; }
+.unread-dot { display: inline-block; width: 7px; height: 7px; background: var(--danger-color); border-radius: 50%; margin-right: 6px; }
+
+/* About-app modal keeps its own light card look regardless of theme */
+.about-modal-overlay { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(15, 23, 42, 0.6); align-items: center; }
+.about-modal-content { background: #ffffff; width: 90%; max-width: 360px; border-radius: 28px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); padding: 24px; text-align: center; margin: auto; transform: none; }
+.about-modal-overlay.active .about-modal-content { transform: none; }
+.app-icon-container { width: 80px; height: 80px; margin: 0 auto 16px auto; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); border-radius: 22px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4); color: white; font-size: 2.2rem; }
+.version-badge { display: inline-block; background: #f1f5f9; color: #475569; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 24px; border: 1px solid #e2e8f0; }
+.dev-profile-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 15px; text-align: left; }
+.dev-avatar { width: 45px; height: 45px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 1.2rem; }
+.social-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 14px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s ease; text-decoration: none; }
+.social-btn:active { transform: scale(0.96); }
+
+/* Toast / undo snackbar */
+.toast {
+  position: absolute; left: 20px; right: 20px; bottom: calc(var(--nav-height) + 30px);
+  background: var(--surface-solid); color: var(--text-primary); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; box-shadow: var(--shadow-soft); z-index: 300; font-size: 0.85rem;
+  animation: toastIn 0.2s ease-out;
+}
+@keyframes toastIn { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+.toast-action { color: var(--primary-color); font-weight: 700; background: none; border: none; cursor: pointer; }
+
+/* ======================================================================
+   DESKTOP LAYOUT (>= 900px)
+   ====================================================================== */
+
+@media (min-width: 900px) {
+  .app-root { align-items: stretch; }
+
+  .app-shell.is-desktop {
+    max-width: none;
+    width: 100%;
+    flex-direction: row;
+    background: var(--bg-color);
+  }
+
+  .side-nav {
+    width: 240px;
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 16px;
+    background: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    gap: 6px;
+  }
+  .side-nav-brand { font-size: 1.4rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 24px; padding: 0 10px; }
+  .side-nav-item {
+    display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: var(--radius-md);
+    color: var(--text-secondary); font-weight: 600; font-size: 0.92rem; cursor: pointer; width: 100%; text-align: left;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .side-nav-item i { width: 20px; text-align: center; font-size: 1.05rem; }
+  .side-nav-item:hover { background: var(--surface-color); color: var(--text-primary); }
+  .side-nav-item.active { background: var(--primary-gradient); color: #fff; }
+  .side-nav-fab {
+    margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px; border-radius: var(--radius-md); background: var(--primary-gradient); color: #fff; font-weight: 700;
+    cursor: pointer;
+  }
+
+  .desktop-main-col { flex: 1; height: 100%; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+  .desktop-top-header {
+    height: 76px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; border-bottom: 1px solid var(--border-color);
+  }
+
+  .desktop-content {
+    flex: 1; overflow-y: auto; padding: 32px; max-width: 1100px; width: 100%; margin: 0 auto;
+    -webkit-mask-image: none; mask-image: none;
+  }
+
+  /* Reflow the mobile single-column stacks into a two-column dashboard grid */
+  .desktop-grid-2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: start; }
+  .desktop-grid-2 .balance-card,
+  .desktop-grid-2 .premium-card { margin-bottom: 24px; }
+
+  .action-grid.desktop-wide { grid-template-columns: repeat(4, 1fr); }
+
+  /* Bottom sheets become centered dialogs on desktop — sliding a sheet from
+     the bottom of a huge viewport looks broken, this keeps it feeling
+     native to a desktop app. */
+  .modal-overlay { align-items: center; }
+  .modal-content {
+    max-width: 480px; border-radius: var(--radius-lg); transform: translate3d(0, 12px, 0) scale(0.98);
+    opacity: 0; transition: transform 0.22s ease-out, opacity 0.22s ease-out; max-height: 80vh;
+  }
+  .modal-overlay.active .modal-content { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+
+  .toast { max-width: 420px; left: 32px; right: auto; bottom: 32px; }
+}

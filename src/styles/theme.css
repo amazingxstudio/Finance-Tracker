@@ -1,0 +1,100 @@
+:root,
+[data-theme='midnight'] {
+  --bg-color: #0b0f19;
+  --surface-color: rgba(30, 41, 59, 0.5);
+  --surface-solid: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --primary-color: #6366f1;
+  --primary-gradient: linear-gradient(135deg, #6366f1, #a855f7);
+  --success-color: #34d399;
+  --danger-color: #fb7185;
+  --warning-color: #fbbf24;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(11, 15, 25, 0.85);
+  --modal-bg: #111827;
+  --card-bg: rgba(17, 24, 39, 0.7);
+  --input-bg: rgba(0, 0, 0, 0.3);
+  --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.12);
+  --glass-blur: blur(12px);
+  --nav-height: 70px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+}
+
+[data-theme='light'] {
+  --bg-color: #f1f5f9;
+  --surface-color: rgba(255, 255, 255, 0.7);
+  --surface-solid: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --primary-color: #3b82f6;
+  --primary-gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --modal-bg: #ffffff;
+  --card-bg: #ffffff;
+  --input-bg: #f8fafc;
+  --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme='rosegold'] {
+  --bg-color: #fff1f2;
+  --surface-color: rgba(255, 255, 255, 0.6);
+  --surface-solid: #ffe4e6;
+  --text-primary: #4c0519;
+  --text-secondary: #9f1239;
+  --primary-color: #db2777;
+  --primary-gradient: linear-gradient(135deg, #db2777, #f43f5e);
+  --success-color: #16a34a;
+  --danger-color: #dc2626;
+  --warning-color: #d97706;
+  --border-color: rgba(159, 18, 57, 0.1);
+  --nav-bg: rgba(255, 241, 242, 0.85);
+  --modal-bg: #fff5f5;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --input-bg: #ffffff;
+  --shadow-soft: 0 12px 30px rgba(159, 18, 57, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-primary);
+  overscroll-behavior-y: none;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
