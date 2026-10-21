@@ -28,12 +28,10 @@
     "vite": "^5.3.4",
     "vite-plugin-pwa": "^0.20.1"
   },
-{
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
-}
 }
