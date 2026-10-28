@@ -58,7 +58,7 @@ export default function Profile() {
       <div className="profile-header">
         <div className="avatar-container">
           <div className="avatar">
-            {settings.avatar ? <img src={settings.avatar} alt="Avatar" /> : <i className="fas fa-user" />}
+            {settings.avatar ? <img src={settings.avatar} alt="Avatar" /> : <i className="fas fa-user-tie" aria-hidden="true" />}
           </div>
           <div className="avatar-edit-btn" onClick={handleAvatarClick}><i className="fas fa-camera" /></div>
           <input ref={fileInput} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarFile} />
@@ -123,10 +123,6 @@ export default function Profile() {
         <div className="section-title">Data</div>
         <div className="settings-item" onClick={() => openModal('backup-restore')} style={{ cursor: 'pointer' }}>
           <span><i className="fas fa-cloud-arrow-up" style={{ marginRight: 10 }} />Backup &amp; Restore</span>
-          <i className="fas fa-chevron-right" style={{ color: 'var(--text-secondary)' }} />
-        </div>
-        <div className="settings-item" onClick={() => openModal('loans')} style={{ cursor: 'pointer' }}>
-          <span><i className="fas fa-hand-holding-dollar" style={{ marginRight: 10 }} />Loans &amp; Debts</span>
           <i className="fas fa-chevron-right" style={{ color: 'var(--text-secondary)' }} />
         </div>
         <div className="settings-item" onClick={() => openModal('about')} style={{ cursor: 'pointer' }}>
