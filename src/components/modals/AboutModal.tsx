@@ -8,17 +8,31 @@ export default function AboutModal() {
     <div className={`modal-overlay about-modal-overlay ${isOpen ? 'active' : ''}`} onClick={closeModal}>
       {isOpen && (
         <div className="about-modal-content" onClick={(e) => e.stopPropagation()}>
-          <div className="app-icon-container"><i className="fas fa-wallet" /></div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>Finance Tracker</div>
-          <div className="version-badge">Version 2.0.0</div>
+          <div className="about-modal-heading">
+            <div className="about-modal-title">About App</div>
+            <button className="about-close-btn" onClick={closeModal} aria-label="Close About dialog">
+              <i className="fas fa-times" aria-hidden="true" />
+            </button>
+          </div>
+          <div className="app-icon-container"><i className="fas fa-wallet" aria-hidden="true" /></div>
+          <div className="about-app-name">Finance Tracker</div>
+          <div className="version-badge">Version 2.0</div>
           <div className="dev-profile-card">
-            <div className="dev-avatar"><i className="fas fa-code" /></div>
+            <div className="dev-avatar"><i className="fas fa-user-tie" aria-hidden="true" /></div>
             <div>
-              <div style={{ fontWeight: 700, color: '#0f172a' }}>Rebuilt in React + TypeScript</div>
-              <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Installable on iOS, Android & Desktop</div>
+              <div className="about-dev-label">Developed By</div>
+              <div className="about-dev-name">AUNG MYAT MINN</div>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={closeModal}>Close</button>
+          <div className="about-social-links">
+            <a href="https://t.me/aung_myat_minn" target="_blank" rel="noreferrer" className="social-btn about-telegram">
+              <i className="fa-brands fa-telegram" aria-hidden="true" /> Telegram
+            </a>
+            <a href="mailto:aungmyatminnx@gmail.com" className="social-btn about-email">
+              <i className="fas fa-envelope" aria-hidden="true" /> Email
+            </a>
+          </div>
+          <div className="about-copyright">© 2026 Finance Tracker. All rights reserved.</div>
         </div>
       )}
     </div>
