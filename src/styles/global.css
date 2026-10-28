@@ -427,98 +427,17 @@
   .toast { max-width: 420px; left: 32px; right: auto; bottom: 32px; }
 }
 
-
-/* ======================================================================
-   Compact mobile UI + document scrolling for collapsing mobile browser chrome
-   ====================================================================== */
+/* Compact content sizing only. Keep the original mobile shell, header, bottom nav,
+   and internal scrolling behavior so content scrolls underneath the header. */
 @media (max-width: 899px) {
-  html, body, #root {
-    height: auto;
-    min-height: 100%;
-  }
-
-  body {
-    min-height: 100vh;
-    min-height: 100svh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .app-root {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 100vh;
-    min-height: 100svh;
-    overflow: visible;
-  }
-
-  .app-shell {
-    width: 100%;
-    max-width: 480px;
-    height: auto;
-    min-height: 100vh;
-    min-height: 100svh;
-    margin: 0 auto;
-    overflow: visible;
-  }
-
-  .main-content {
-    display: block;
-    flex: none;
-    min-height: 100svh;
-    overflow: visible;
-    padding: calc(66px + 30px) 16px calc(var(--nav-height) + 46px + env(safe-area-inset-bottom));
-    -webkit-mask-image: none;
-    mask-image: none;
-    transform: none;
-  }
-
-  .top-header {
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    height: 58px;
-    padding: 0 14px;
-    border-radius: 18px;
-  }
-
-  .header-title { font-size: 1rem; }
-  .header-actions-group { gap: 7px; }
-  .streak-badge, .header-actions { width: 34px; height: 34px; font-size: 0.98rem; }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: calc(10px + env(safe-area-inset-bottom));
-    left: max(12px, calc((100vw - 456px) / 2));
-    right: max(12px, calc((100vw - 456px) / 2));
-    height: 62px;
-    padding: 0 5px;
-  }
-
-  .nav-item { font-size: 0.68rem; }
-  .nav-item i { font-size: 1.08rem; margin-bottom: 3px; }
-  .nav-item.active i { transform: translateY(-2px) scale(1.06); }
-
-  .fab {
-    position: fixed;
-    bottom: calc(var(--nav-height) + 22px + env(safe-area-inset-bottom));
-    right: max(16px, calc((100vw - 448px) / 2 + 16px));
-    width: 48px;
-    height: 48px;
-    font-size: 1.2rem;
-  }
-
-  .modal-overlay, .about-modal-overlay { position: fixed; inset: 0; }
-
   .balance-amount { font-size: 1.95rem; margin: 5px 0 13px; }
   .balance-label { font-size: 0.74rem; }
   .stat-label { font-size: 0.68rem; }
   .stat-val { font-size: 0.96rem; }
   .action-grid { gap: 9px; }
   .action-card { padding: 13px 10px; border-radius: 15px; font-size: 0.88rem; }
-  .action-card i { font-size: 1.5rem; margin-bottom: 6px; }
+  /* Reduce only the four shortcut icons on the Home/Dashboard page. */
+  .dashboard-page .action-card i { font-size: 1.5rem; margin-bottom: 6px; }
   .section-title { font-size: 0.94rem; margin-bottom: 11px; }
   .premium-card { padding: 14px; margin-bottom: 15px; }
   .tx-icon { width: 38px; height: 38px; font-size: 1.02rem; margin-right: 11px; }
@@ -539,7 +458,6 @@
   .main-content { padding-left: 12px; padding-right: 12px; }
   .action-grid { gap: 7px; }
   .action-card { padding: 11px 7px; font-size: 0.82rem; }
-  .nav-item { font-size: 0.63rem; }
 }
 
 /* About modal matches the supplied single-file reference. */
@@ -559,3 +477,6 @@
   .about-dev-name { font-size: 0.95rem; }
   .social-btn { padding: 10px 8px; font-size: 0.85rem; }
 }
+
+/* Keep bottom-navigation icon size and spacing exactly at the original values. */
+.bottom-nav .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
