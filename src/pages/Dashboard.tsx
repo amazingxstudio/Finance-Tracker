@@ -25,7 +25,7 @@ export default function Dashboard() {
   const balance = inc - exp;
 
   const body = (
-    <>
+    <div className="dashboard-page">
       <div className="balance-card">
         {settings.piggyBank > 0 && (
           <div className="savings-badge">
@@ -90,7 +90,7 @@ export default function Dashboard() {
 
       <div className="section-title">Recent Activity</div>
       <TransactionList transactions={monthTx} limit={6} emptyMessage="No activity this cycle yet" />
-    </>
+    </div>
   );
 
   return body;
