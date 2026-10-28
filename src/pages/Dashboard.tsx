@@ -26,21 +26,40 @@ export default function Dashboard() {
 
   const body = (
     <div className="dashboard-page">
-      <div className="balance-card">
-        {settings.piggyBank > 0 && (
-          <div className="savings-badge">
-            <i className="fas fa-piggy-bank" /> {formatMoney(settings.piggyBank, settings.currency)}
+      <div className="balance-card premium-balance-card">
+        <div className="balance-glow balance-glow-one" />
+        <div className="balance-glow balance-glow-two" />
+        <div className="premium-balance-topline">
+          <div className="premium-balance-label-wrap">
+            <span className="premium-balance-icon"><i className="fas fa-wallet" /></span>
+            <div>
+              <div className="premium-balance-kicker">YOUR FINANCES</div>
+              <div className="balance-label">Remaining Balance</div>
+            </div>
           </div>
-        )}
-        <div className="balance-label">Remaining Balance</div>
-        <div className="balance-amount">{formatMoney(balance, settings.currency)}</div>
-        <div className="balance-stats">
-          <div className="stat-col">
-            <span className="stat-label">Income</span>
+          {settings.piggyBank > 0 && (
+            <div className="savings-badge premium-savings-badge">
+              <i className="fas fa-piggy-bank" /> {formatMoney(settings.piggyBank, settings.currency)}
+            </div>
+          )}
+        </div>
+        <div className={`balance-amount premium-balance-amount ${balance < 0 ? 'balance-negative' : ''}`}>
+          {formatMoney(balance, settings.currency)}
+        </div>
+        <div className="balance-progress-track" aria-label="Share of income remaining">
+          <div className="balance-progress-fill" style={{ width: `${inc > 0 ? Math.max(0, Math.min(100, (balance / inc) * 100)) : 0}%` }} />
+        </div>
+        <div className="premium-balance-footnote">
+          <span>{inc > 0 ? `${Math.max(0, Math.min(100, Math.round((balance / inc) * 100)))}% of income remaining` : 'Your cycle overview'}</span>
+          <span className="premium-balance-cycle"><i className="fas fa-calendar-alt" /> This cycle</span>
+        </div>
+        <div className="balance-stats premium-balance-stats">
+          <div className="stat-col premium-balance-stat">
+            <span className="stat-label"><i className="fas fa-arrow-down" /> Total Income</span>
             <span className="stat-val amount-in">{formatMoney(inc, settings.currency)}</span>
           </div>
-          <div className="stat-col">
-            <span className="stat-label">Expense</span>
+          <div className="stat-col premium-balance-stat premium-balance-stat-out">
+            <span className="stat-label"><i className="fas fa-arrow-up" /> Total Expenses</span>
             <span className="stat-val amount-out">{formatMoney(exp, settings.currency)}</span>
           </div>
         </div>
