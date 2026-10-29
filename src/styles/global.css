@@ -768,3 +768,27 @@ button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
 @keyframes naturalFlameBase { 0% { transform: scaleY(.96); } 50% { transform: scaleY(1.035); } 100% { transform: scaleY(.985); } }
 @keyframes naturalFlameCore { 0% { transform: scale(.91); opacity: .86; } 55% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(.97); opacity: .94; } }
 @media (prefers-reduced-motion: reduce) { .streak-flame-svg *, .streak-flame-preview, .streak-detail-main-flame::before { animation: none !important; transition: none !important; } }
+
+
+/* Static flame mode: match the reference design without flame/heat animations. */
+.streak-flame-svg,
+.streak-flame-svg *,
+.streak-flame-preview,
+.streak-detail-main-flame::before,
+.streak-milestone-icon {
+  animation: none !important;
+  transition: none !important;
+}
+.streak-flame-svg,
+.streak-flame-svg.is-burning,
+.streak-flame-svg .flame-crown,
+.streak-flame-svg .flame-left,
+.streak-flame-svg .flame-right,
+.streak-flame-svg .flame-base,
+.streak-flame-svg .flame-core,
+.streak-flame-svg .flame-spark {
+  transform: none !important;
+}
+.streak-flame-svg .heat-wave,
+.streak-flame-svg .mythic-sparks { display: none !important; }
+.streak-detail-main-flame::before { opacity: .12; }
