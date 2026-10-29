@@ -743,3 +743,28 @@
 @keyframes sparksFlash { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
 @keyframes previewReveal { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @media (prefers-reduced-motion: reduce) { .streak-flame-svg *, .streak-flame-preview, .streak-detail-main-flame::before { animation: none !important; transition: none !important; } }
+
+
+/* Final interaction + natural flame override. Prevent accidental browser text selection across the app, while keeping form fields editable/selectable. */
+html, body, #root, #root * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, select, [contenteditable="true"], [contenteditable="true"] *, .allow-text-selection { -webkit-user-select: text !important; user-select: text !important; -webkit-touch-callout: default; }
+button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+/* Fire should flicker and lick upward in place—not shake the whole icon or look like steam. */
+.streak-flame-svg.is-burning { transform: none !important; }
+.streak-flame-svg.is-burning .heat-wave { display: none !important; }
+.streak-flame-svg.is-burning .flame-crown { transform-box: fill-box; transform-origin: 50% 100%; animation: naturalFlameCrown 620ms ease-in-out infinite alternate; }
+.streak-flame-svg.is-burning .flame-left { transform-box: fill-box; transform-origin: 50% 100%; animation: naturalFlameSide 470ms ease-in-out infinite alternate; }
+.streak-flame-svg.is-burning .flame-right { transform-box: fill-box; transform-origin: 50% 100%; animation: naturalFlameSide 540ms ease-in-out infinite alternate-reverse; }
+.streak-flame-svg.is-burning .flame-base { transform-box: fill-box; transform-origin: 50% 100%; animation: naturalFlameBase 410ms ease-in-out infinite alternate; }
+.streak-flame-svg.is-burning .flame-core { transform-box: fill-box; transform-origin: 50% 100%; animation: naturalFlameCore 360ms ease-in-out infinite alternate; }
+.streak-flame-10.is-burning .flame-crown { animation-duration: 620ms; }
+.streak-flame-30.is-burning .flame-crown { animation-duration: 500ms; }
+.streak-flame-100.is-burning .flame-crown { animation-duration: 390ms; }
+.streak-flame-200.is-burning .flame-crown { animation-duration: 300ms; }
+.streak-flame-100.is-burning, .streak-flame-200.is-burning { filter: drop-shadow(0 0 5px var(--flame-outer)); }
+@keyframes naturalFlameCrown { 0% { transform: skewX(-1deg) scaleX(.98) scaleY(.91); } 45% { transform: skewX(1.5deg) scaleX(1.025) scaleY(1.08); } 100% { transform: skewX(-1.2deg) scaleX(.99) scaleY(.97); } }
+@keyframes naturalFlameSide { 0% { transform: scaleX(.94) scaleY(.92); opacity: .88; } 55% { transform: scaleX(1.06) scaleY(1.07); opacity: 1; } 100% { transform: scaleX(.98) scaleY(.96); opacity: .94; } }
+@keyframes naturalFlameBase { 0% { transform: scaleY(.96); } 50% { transform: scaleY(1.035); } 100% { transform: scaleY(.985); } }
+@keyframes naturalFlameCore { 0% { transform: scale(.91); opacity: .86; } 55% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(.97); opacity: .94; } }
+@media (prefers-reduced-motion: reduce) { .streak-flame-svg *, .streak-flame-preview, .streak-detail-main-flame::before { animation: none !important; transition: none !important; } }
