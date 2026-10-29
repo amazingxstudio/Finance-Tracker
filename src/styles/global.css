@@ -568,3 +568,93 @@
   .premium-balance-stat .stat-val { font-size: 0.82rem; }
   .summary-total-card { padding: 20px 14px 18px; }
 }
+
+/* Theme-aware premium Remaining Balance card for Light and Rose Gold/Pink themes. */
+[data-theme='light'] .premium-balance-card {
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 54%, #ecfeff 100%);
+  border-color: rgba(59, 130, 246, 0.18);
+  box-shadow: 0 16px 36px rgba(59, 130, 246, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+[data-theme='light'] .premium-balance-card::before {
+  background: linear-gradient(115deg, rgba(96, 165, 250, 0.13), transparent 44%, rgba(45, 212, 191, 0.12));
+}
+[data-theme='light'] .premium-balance-card .premium-balance-icon {
+  color: #2563eb;
+  background: linear-gradient(145deg, rgba(96, 165, 250, 0.18), rgba(34, 211, 238, 0.12));
+  border-color: rgba(59, 130, 246, 0.18);
+}
+[data-theme='light'] .premium-balance-kicker { color: #2563eb; }
+[data-theme='light'] .premium-balance-card .balance-label { color: #475569; opacity: 1; }
+[data-theme='light'] .premium-savings-badge {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.10);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+[data-theme='light'] .premium-balance-amount {
+  color: #0f172a;
+  text-shadow: 0 2px 18px rgba(59, 130, 246, 0.10);
+}
+[data-theme='light'] .premium-balance-amount.balance-negative { color: #dc2626; }
+[data-theme='light'] .balance-progress-track { background: rgba(100, 116, 139, 0.15); }
+[data-theme='light'] .balance-progress-fill {
+  background: linear-gradient(90deg, #3b82f6, #14b8a6);
+  box-shadow: 0 0 12px rgba(20, 184, 166, 0.20);
+}
+[data-theme='light'] .premium-balance-footnote { color: #64748b; }
+[data-theme='light'] .premium-balance-stats { border-top-color: rgba(100, 116, 139, 0.18); }
+[data-theme='light'] .premium-balance-stat .stat-label { color: #64748b; }
+
+[data-theme='rosegold'] .premium-balance-card {
+  background: linear-gradient(135deg, #fffafb 0%, #ffe4ec 54%, #fce7f3 100%);
+  border-color: rgba(219, 39, 119, 0.20);
+  box-shadow: 0 16px 36px rgba(190, 24, 93, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+[data-theme='rosegold'] .premium-balance-card::before {
+  background: linear-gradient(115deg, rgba(244, 114, 182, 0.15), transparent 44%, rgba(251, 113, 133, 0.12));
+}
+[data-theme='rosegold'] .premium-balance-card .premium-balance-icon {
+  color: #be185d;
+  background: linear-gradient(145deg, rgba(244, 114, 182, 0.20), rgba(251, 113, 133, 0.12));
+  border-color: rgba(219, 39, 119, 0.18);
+}
+[data-theme='rosegold'] .premium-balance-kicker { color: #be185d; }
+[data-theme='rosegold'] .premium-balance-card .balance-label { color: #881337; opacity: 0.9; }
+[data-theme='rosegold'] .premium-savings-badge {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.10);
+  border-color: rgba(16, 185, 129, 0.20);
+}
+[data-theme='rosegold'] .premium-balance-amount {
+  color: #4c0519;
+  text-shadow: 0 2px 18px rgba(219, 39, 119, 0.10);
+}
+[data-theme='rosegold'] .premium-balance-amount.balance-negative { color: #be123c; }
+[data-theme='rosegold'] .balance-progress-track { background: rgba(190, 24, 93, 0.12); }
+[data-theme='rosegold'] .balance-progress-fill {
+  background: linear-gradient(90deg, #db2777, #fb7185, #f9a8d4);
+  box-shadow: 0 0 12px rgba(219, 39, 119, 0.20);
+}
+[data-theme='rosegold'] .premium-balance-footnote { color: #9f1239; }
+[data-theme='rosegold'] .premium-balance-stats { border-top-color: rgba(190, 24, 93, 0.15); }
+[data-theme='rosegold'] .premium-balance-stat .stat-label { color: #9f1239; }
+
+/* Prevent accidental browser text selection while tapping/long-pressing the web app. */
+html,
+body,
+#root,
+#root * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keep text editing and copy/paste usable inside editable form controls. */
+input,
+textarea,
+[contenteditable="true"],
+[contenteditable=""] {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default;
+}
