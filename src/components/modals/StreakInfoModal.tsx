@@ -3,27 +3,27 @@ import BottomSheetModal from '@/components/common/BottomSheetModal';
 import { useModal } from '@/context/ModalContext';
 import { useAppData } from '@/context/AppDataContext';
 
-const MILESTONES = [3, 10, 30, 100, 200];
+const MILESTONES = [3, 10, 50, 100, 200];
 const FLAME_NAMES: Record<number, string> = {
-  0: 'Unlit Spark', 3: 'Spark Beginner', 10: 'Phoenix Rising', 30: 'Blaze Master', 100: 'Inferno Legend', 200: 'Mythic Dragon',
+  0: 'Unlit Spark', 3: 'Spark Beginner', 10: 'Phoenix Rising', 50: 'Blaze Master', 100: 'Inferno Legend', 200: 'Mythic Dragon',
 };
 function getStreakLevel(count: number) {
   if (count >= 200) return { name: FLAME_NAMES[200], next: null as number | null, tier: 200 };
   if (count >= 100) return { name: FLAME_NAMES[100], next: 200, tier: 100 };
-  if (count >= 30) return { name: FLAME_NAMES[30], next: 100, tier: 30 };
-  if (count >= 10) return { name: FLAME_NAMES[10], next: 30, tier: 10 };
+  if (count >= 50) return { name: FLAME_NAMES[50], next: 100, tier: 50 };
+  if (count >= 10) return { name: FLAME_NAMES[10], next: 50, tier: 10 };
   if (count >= 3) return { name: FLAME_NAMES[3], next: 10, tier: 3 };
   return { name: FLAME_NAMES[0], next: 3, tier: 0 };
 }
 
 /* Exact layered flame silhouette from Couple-Tools-main/assets/scripts/features/streak.js. */
 function FlameIcon({ tier, large = false }: { tier: number; large?: boolean }) {
-  const classTier = tier >= 200 ? 200 : tier >= 100 ? 100 : tier >= 30 ? 30 : tier >= 10 ? 10 : tier >= 3 ? 3 : 0;
-  return <svg className={`streak-flame-svg streak-flame-${classTier}${large ? ' streak-flame-large' : ''}`} viewBox="-3 -5 30 30" aria-hidden="true" focusable="false">
+  const classTier = tier >= 200 ? 200 : tier >= 100 ? 100 : tier >= 50 ? 50 : tier >= 10 ? 10 : tier >= 3 ? 3 : 0;
+  return <svg className={`streak-flame-svg fire-${classTier}${large ? ' streak-flame-large' : ''}`} viewBox="-3 -5 30 30" aria-hidden="true" focusable="false">
     <path className="flame-crown" d="M12 -4c2.5 5-1.5 7-3.5 11.5-1.6 3.6-1 6.7 1 9a6 6 0 0010-3.5c0-2.2-1-4.3-2.3-5.7 3.6 2 6.3 5.7 6.3 10.2a10.5 10.5 0 01-21 0c0-8.5 5.4-13.6 9.5-21.5z" />
-    {classTier >= 3 && <path className="flame-left" d="M10 21c-2.5 0-5-1.6-6.3-4.4-1.6-3.4-.7-7 1.3-9.6-.4 3 .3 5 2 6.8 1.6 1.7 3 2.2 3.6 3.4.6 1.2.2 2.5-.6 3.8z" />}
-    {classTier >= 10 && <path className="flame-right" d="M14 21c2.5 0 5-1.6 6.3-4.4 1.6-3.4.7-7-1.3-9.6.4 3-.3 5-2 6.8-1.6 1.7-3 2.2-3.6 3.4-.6 1.2-.2 2.5.6 3.8z" />}
-    {classTier >= 3 && <g transform="translate(-3,-5) scale(1.25)"><path className="flame-base" d="M12 2c1 4-3 5-3 9a3 3 0 006 0c0-1-.4-2-1-3 2 1 3 3 3 5a5 5 0 01-10 0c0-4 3-6 5-11z" /><path className="flame-core" d="M12 8.5c1 2.2-1.3 2.8-1.3 4.8a1.8 1.8 0 003.6 0c0-.6-.2-1.1-.5-1.6 1.1.6 1.8 1.7 1.8 2.9a2.8 2.8 0 01-5.6 0c0-2.4 1.5-3.7 2-6.1z" /></g>}
+    <path className="flame-left" d="M10 21c-2.5 0-5-1.6-6.3-4.4-1.6-3.4-.7-7 1.3-9.6-.4 3 .3 5 2 6.8 1.6 1.7 3 2.2 3.6 3.4.6 1.2.2 2.5-.6 3.8z" />
+    <path className="flame-right" d="M14 21c2.5 0 5-1.6 6.3-4.4 1.6-3.4.7-7-1.3-9.6.4 3-.3 5-2 6.8-1.6 1.7-3 2.2-3.6 3.4-.6 1.2-.2 2.5.6 3.8z" />
+    <g transform="translate(-3,-5) scale(1.25)"><path className="flame-base" d="M12 2c1 4-3 5-3 9a3 3 0 006 0c0-1-.4-2-1-3 2 1 3 3 3 5a5 5 0 01-10 0c0-4 3-6 5-11z" /><path className="flame-core" d="M12 8.5c1 2.2-1.3 2.8-1.3 4.8a1.8 1.8 0 003.6 0c0-.6-.2-1.1-.5-1.6 1.1.6 1.8 1.7 1.8 2.9a2.8 2.8 0 01-5.6 0c0-2.4 1.5-3.7 2-6.1z" /></g>
   </svg>;
 }
 
