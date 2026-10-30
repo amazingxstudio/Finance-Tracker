@@ -768,3 +768,53 @@ button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
 @keyframes naturalFlameBase { 0% { transform: scaleY(.96); } 50% { transform: scaleY(1.035); } 100% { transform: scaleY(.985); } }
 @keyframes naturalFlameCore { 0% { transform: scale(.91); opacity: .86; } 55% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(.97); opacity: .94; } }
 @media (prefers-reduced-motion: reduce) { .streak-flame-svg *, .streak-flame-preview, .streak-detail-main-flame::before { animation: none !important; transition: none !important; } }
+
+
+/* Static flame mode: match the reference design without flame/heat animations. */
+.streak-flame-svg,
+.streak-flame-svg *,
+.streak-flame-preview,
+.streak-detail-main-flame::before,
+.streak-milestone-icon {
+  animation: none !important;
+  transition: none !important;
+}
+.streak-flame-svg,
+.streak-flame-svg.is-burning,
+.streak-flame-svg .flame-crown,
+.streak-flame-svg .flame-left,
+.streak-flame-svg .flame-right,
+.streak-flame-svg .flame-base,
+.streak-flame-svg .flame-core,
+.streak-flame-svg .flame-spark {
+  transform: none !important;
+}
+.streak-flame-svg .heat-wave,
+.streak-flame-svg .mythic-sparks { display: none !important; }
+.streak-detail-main-flame::before { opacity: .12; }
+
+
+/* Final streak reference fixes: static layered flame SVG and press-and-hold preview. */
+.streak-detail-card { position: relative; overflow: visible; }
+.streak-flame-svg, .streak-flame-svg *, .streak-detail-main-flame, .streak-detail-main-flame::before,
+.streak-flame-preview, .streak-flame-preview * { animation: none !important; transition: none !important; }
+.streak-flame-svg .flame-crown, .streak-flame-svg .flame-left, .streak-flame-svg .flame-right,
+.streak-flame-svg .flame-base, .streak-flame-svg .flame-core { transform: none !important; }
+.streak-flame-preview { position: absolute; z-index: 20; left: 50%; bottom: 78px; transform: translateX(-50%); width: min(220px, 72%); margin: 0; padding: 12px 12px 10px; border: 1px solid var(--border-color); border-radius: 16px; background: var(--surface-color); box-shadow: 0 12px 32px rgba(0,0,0,.24); text-align: center; pointer-events: none; }
+.streak-preview-close { display: none !important; }
+.streak-preview-title { align-items: center; padding-right: 0; font-size: .82rem; }
+.streak-preview-stage { min-height: 68px; padding: 4px 0; }
+.streak-preview-stage .streak-flame-svg { width: 54px; height: 62px; }
+.streak-flame-preview p { font-size: .68rem; line-height: 1.35; }
+.streak-milestone { touch-action: none; -webkit-touch-callout: none; }
+.streak-milestone-caption { margin-top: 10px; }
+/* Prevent accidental browser selection on app UI, while keeping form fields selectable. */
+html, body, #root, #root * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, select, [contenteditable="true"], [contenteditable="true"] *, .allow-text-selection { -webkit-user-select: text !important; user-select: text !important; -webkit-touch-callout: default; }
+
+.streak-flame-0 { --flame-outer: #fbbf24; --flame-left: #fbbf24; --flame-right: #fb923c; --flame-base: #fde68a; --flame-core: #fff7ed; }
+.streak-milestone-icon.streak-flame-3 .streak-flame-svg { --flame-outer:#f59e0b; --flame-left:#fbbf24; --flame-right:#fb923c; --flame-base:#fde68a; --flame-core:#fff7ed; }
+.streak-milestone-icon.streak-flame-10 .streak-flame-svg { --flame-outer:#f97316; --flame-left:#fb923c; --flame-right:#ea580c; --flame-base:#fef08a; --flame-core:#fff7ed; }
+.streak-milestone-icon.streak-flame-30 .streak-flame-svg { --flame-outer:#dc2626; --flame-left:#f97316; --flame-right:#ea580c; --flame-base:#fbbf24; --flame-core:#fff7ed; }
+.streak-milestone-icon.streak-flame-100 .streak-flame-svg { --flame-outer:#db2777; --flame-left:#f472b6; --flame-right:#be185d; --flame-base:#fbcfe8; --flame-core:#fff7ed; }
+.streak-milestone-icon.streak-flame-200 .streak-flame-svg { --flame-outer:#9333ea; --flame-left:#c084fc; --flame-right:#7e22ce; --flame-base:#e9d5ff; --flame-core:#fff7ed; }
