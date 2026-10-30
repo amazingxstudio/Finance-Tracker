@@ -498,3 +498,36 @@
 .streak-giant-flame.fire-200 .flame-left, .streak-giant-flame.fire-200 .flame-right, .streak-milestone-icon.fire-200 .flame-left, .streak-milestone-icon.fire-200 .flame-right, .streak-preview-flame.fire-200 .flame-left, .streak-preview-flame.fire-200 .flame-right { fill: #a78bfa; opacity: 1; transform: scale(1.16); }
 .streak-giant-flame.fire-200 .flame-crown, .streak-milestone-icon.fire-200 .flame-crown, .streak-preview-flame.fire-200 .flame-crown { fill: #ddd6fe; opacity: 1; transform: scale(1.12); }
 .streak-giant-flame.fire-200 .flame-core, .streak-milestone-icon.fire-200 .flame-core, .streak-preview-flame.fire-200 .flame-core { fill: #f5d0fe; opacity: 1; transform: scale(1.12); }
+
+/* TikTok-inspired streak progression: every milestone deepens in color, ending in violet.
+   The same palette is shared by the modal flame, milestone icons, and press preview. */
+.streak-giant-flame.fire-3, .streak-milestone-icon.fire-3, .streak-preview-flame.fire-3 { color: #ffd54f; filter: drop-shadow(0 0 4px rgba(255,213,79,.28)); }
+.streak-giant-flame.fire-3 .flame-base, .streak-milestone-icon.fire-3 .flame-base, .streak-preview-flame.fire-3 .flame-base { fill: #ffb300; }
+.streak-giant-flame.fire-3 .flame-core, .streak-milestone-icon.fire-3 .flame-core, .streak-preview-flame.fire-3 .flame-core { fill: #fff2b2; }
+.streak-giant-flame.fire-3 .flame-left, .streak-giant-flame.fire-3 .flame-right, .streak-milestone-icon.fire-3 .flame-left, .streak-milestone-icon.fire-3 .flame-right, .streak-preview-flame.fire-3 .flame-left, .streak-preview-flame.fire-3 .flame-right { fill: #ffc247; }
+
+.streak-giant-flame.fire-10, .streak-milestone-icon.fire-10, .streak-preview-flame.fire-10 { color: #ff8a24; filter: drop-shadow(0 0 6px rgba(255,106,0,.38)); }
+.streak-giant-flame.fire-10 .flame-base, .streak-milestone-icon.fire-10 .flame-base, .streak-preview-flame.fire-10 .flame-base { fill: #ff6d00; }
+.streak-giant-flame.fire-10 .flame-core, .streak-milestone-icon.fire-10 .flame-core, .streak-preview-flame.fire-10 .flame-core { fill: #ffe0a0; }
+.streak-giant-flame.fire-10 .flame-left, .streak-giant-flame.fire-10 .flame-right, .streak-milestone-icon.fire-10 .flame-left, .streak-milestone-icon.fire-10 .flame-right, .streak-preview-flame.fire-10 .flame-left, .streak-preview-flame.fire-10 .flame-right { fill: #ff8a24; }
+
+.streak-giant-flame.fire-30, .streak-milestone-icon.fire-30, .streak-preview-flame.fire-30 { color: #f4511e; filter: drop-shadow(0 0 7px rgba(244,81,30,.45)); }
+.streak-giant-flame.fire-30 .flame-base, .streak-milestone-icon.fire-30 .flame-base, .streak-preview-flame.fire-30 .flame-base { fill: #e53935; }
+.streak-giant-flame.fire-30 .flame-core, .streak-milestone-icon.fire-30 .flame-core, .streak-preview-flame.fire-30 .flame-core { fill: #ffd180; }
+.streak-giant-flame.fire-30 .flame-left, .streak-giant-flame.fire-30 .flame-right, .streak-milestone-icon.fire-30 .flame-left, .streak-milestone-icon.fire-30 .flame-right, .streak-preview-flame.fire-30 .flame-left, .streak-preview-flame.fire-30 .flame-right { fill: #ff5722; }
+
+.streak-giant-flame.fire-50, .streak-milestone-icon.fire-50, .streak-preview-flame.fire-50 { color: #e53935; filter: drop-shadow(0 0 8px rgba(229,57,53,.48)); }
+.streak-giant-flame.fire-50 .flame-base, .streak-milestone-icon.fire-50 .flame-base, .streak-preview-flame.fire-50 .flame-base { fill: #c62828; }
+.streak-giant-flame.fire-50 .flame-core, .streak-milestone-icon.fire-50 .flame-core, .streak-preview-flame.fire-50 .flame-core { fill: #ffccbc; }
+.streak-giant-flame.fire-50 .flame-left, .streak-giant-flame.fire-50 .flame-right, .streak-milestone-icon.fire-50 .flame-left, .streak-milestone-icon.fire-50 .flame-right, .streak-preview-flame.fire-50 .flame-left, .streak-preview-flame.fire-50 .flame-right { fill: #f44336; }
+
+.streak-giant-flame.fire-100, .streak-milestone-icon.fire-100, .streak-preview-flame.fire-100 { color: #d81b60; filter: drop-shadow(0 0 10px rgba(216,27,96,.5)); }
+.streak-giant-flame.fire-100 .flame-base, .streak-milestone-icon.fire-100 .flame-base, .streak-preview-flame.fire-100 .flame-base { fill: #ad1457; }
+.streak-giant-flame.fire-100 .flame-core, .streak-milestone-icon.fire-100 .flame-core, .streak-preview-flame.fire-100 .flame-core { fill: #fce4ec; }
+.streak-giant-flame.fire-100 .flame-left, .streak-giant-flame.fire-100 .flame-right, .streak-milestone-icon.fire-100 .flame-left, .streak-milestone-icon.fire-100 .flame-right, .streak-preview-flame.fire-100 .flame-left, .streak-preview-flame.fire-100 .flame-right { fill: #ec407a; }
+
+.streak-giant-flame.fire-200, .streak-milestone-icon.fire-200, .streak-preview-flame.fire-200 { color: #a855f7; filter: drop-shadow(0 0 12px rgba(168,85,247,.58)); }
+.streak-giant-flame.fire-200 .flame-base, .streak-milestone-icon.fire-200 .flame-base, .streak-preview-flame.fire-200 .flame-base { fill: #6d28d9; }
+.streak-giant-flame.fire-200 .flame-core, .streak-milestone-icon.fire-200 .flame-core, .streak-preview-flame.fire-200 .flame-core { fill: #f3e8ff; opacity: 1; transform: scale(1.12); }
+.streak-giant-flame.fire-200 .flame-left, .streak-giant-flame.fire-200 .flame-right, .streak-milestone-icon.fire-200 .flame-left, .streak-milestone-icon.fire-200 .flame-right, .streak-preview-flame.fire-200 .flame-left, .streak-preview-flame.fire-200 .flame-right { fill: #a855f7; opacity: 1; transform: scale(1.16); }
+.streak-giant-flame.fire-200 .flame-crown, .streak-milestone-icon.fire-200 .flame-crown, .streak-preview-flame.fire-200 .flame-crown { fill: #d8b4fe; opacity: 1; transform: scale(1.12); }
