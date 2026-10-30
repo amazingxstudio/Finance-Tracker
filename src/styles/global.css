@@ -498,3 +498,15 @@
 .streak-giant-flame.fire-200 .flame-left, .streak-giant-flame.fire-200 .flame-right, .streak-milestone-icon.fire-200 .flame-left, .streak-milestone-icon.fire-200 .flame-right, .streak-preview-flame.fire-200 .flame-left, .streak-preview-flame.fire-200 .flame-right { fill: #a78bfa; opacity: 1; transform: scale(1.16); }
 .streak-giant-flame.fire-200 .flame-crown, .streak-milestone-icon.fire-200 .flame-crown, .streak-preview-flame.fire-200 .flame-crown { fill: #ddd6fe; opacity: 1; transform: scale(1.12); }
 .streak-giant-flame.fire-200 .flame-core, .streak-milestone-icon.fire-200 .flame-core, .streak-preview-flame.fire-200 .flame-core { fill: #f5d0fe; opacity: 1; transform: scale(1.12); }
+
+
+/* Prevent long-press text selection in the app UI; keep form fields editable/selectable. */
+body, #root, #root * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+input, textarea, [contenteditable="true"], input *, textarea * {
+  -webkit-user-select: text;
+  user-select: text;
+}
