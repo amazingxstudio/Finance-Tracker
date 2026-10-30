@@ -818,3 +818,23 @@ input, textarea, select, [contenteditable="true"], [contenteditable="true"] *, .
 .streak-milestone-icon.streak-flame-30 .streak-flame-svg { --flame-outer:#dc2626; --flame-left:#f97316; --flame-right:#ea580c; --flame-base:#fbbf24; --flame-core:#fff7ed; }
 .streak-milestone-icon.streak-flame-100 .streak-flame-svg { --flame-outer:#db2777; --flame-left:#f472b6; --flame-right:#be185d; --flame-base:#fbcfe8; --flame-core:#fff7ed; }
 .streak-milestone-icon.streak-flame-200 .streak-flame-svg { --flame-outer:#9333ea; --flame-left:#c084fc; --flame-right:#7e22ce; --flame-base:#e9d5ff; --flame-core:#fff7ed; }
+
+
+/* Exact static tier reveal from Couple-Tools-main/assets/styles/home.css; no flame animation. */
+.streak-flame-svg .flame-base { fill: currentColor !important; opacity: 1 !important; transform: none !important; }
+.streak-flame-svg .flame-core, .streak-flame-svg .flame-left, .streak-flame-svg .flame-right, .streak-flame-svg .flame-crown { opacity: 0 !important; transform: scale(.4) !important; transform-origin: 12px 22px; }
+.streak-flame-svg .flame-core { transform-origin: 12px 12px !important; }
+.streak-flame-svg.fire-3 .flame-core { opacity: 1 !important; transform: scale(.8) !important; fill: #ffdb8a !important; }
+.streak-flame-svg.fire-10 .flame-core { opacity: 1 !important; transform: scale(.9) !important; fill: #ffdb8a !important; }
+.streak-flame-svg.fire-10 .flame-left, .streak-flame-svg.fire-10 .flame-right { opacity: 1 !important; transform: scale(.8) !important; fill: #ff8a3d !important; }
+.streak-flame-svg.fire-50 .flame-core { opacity: 1 !important; transform: scale(1) !important; fill: #ffe08a !important; }
+.streak-flame-svg.fire-50 .flame-left, .streak-flame-svg.fire-50 .flame-right { opacity: 1 !important; transform: scale(1) !important; fill: #ffa23d !important; }
+.streak-flame-svg.fire-50 .flame-crown { opacity: 0 !important; }
+.streak-flame-svg.fire-100 .flame-core { opacity: 1 !important; transform: scale(1) !important; fill: #ffefb0 !important; }
+.streak-flame-svg.fire-100 .flame-left, .streak-flame-svg.fire-100 .flame-right { opacity: 1 !important; transform: scale(1.05) !important; fill: #ffb545 !important; }
+.streak-flame-svg.fire-100 .flame-crown { opacity: .85 !important; transform: scale(.9) !important; fill: #ffcf6b !important; }
+.streak-flame-svg.fire-200 .flame-core { opacity: 1 !important; transform: scale(1.05) !important; fill: #fff6d8 !important; }
+.streak-flame-svg.fire-200 .flame-left, .streak-flame-svg.fire-200 .flame-right { opacity: 1 !important; transform: scale(1.1) !important; fill: #ffd27a !important; }
+.streak-flame-svg.fire-200 .flame-crown { opacity: 1 !important; transform: scale(1) !important; fill: #ffe9a8 !important; }
+.streak-flame-svg, .streak-flame-svg *, .streak-flame-preview { animation: none !important; transition: none !important; }
+.streak-flame-svg .flame-crown, .streak-flame-svg .flame-left, .streak-flame-svg .flame-right, .streak-flame-svg .flame-base, .streak-flame-svg .flame-core { animation: none !important; }
