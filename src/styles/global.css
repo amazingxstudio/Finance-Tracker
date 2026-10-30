@@ -510,3 +510,114 @@ input, textarea, [contenteditable="true"], input *, textarea * {
   -webkit-user-select: text;
   user-select: text;
 }
+
+/* Restored last-known premium Remaining Balance UI only; Streak styles above are untouched. */
+/* Premium finance summary cards — leaves the header, navigation and shell untouched. */
+.premium-balance-card {
+  isolation: isolate;
+  padding: 20px 18px 17px;
+  background: linear-gradient(145deg, rgba(35, 47, 77, 0.98), rgba(18, 25, 43, 0.98));
+  border-color: rgba(148, 163, 255, 0.2);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.premium-balance-card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: linear-gradient(115deg, rgba(99, 102, 241, 0.16), transparent 44%, rgba(52, 211, 153, 0.06));
+}
+.balance-glow { position: absolute; width: 150px; height: 150px; border-radius: 50%; filter: blur(40px); opacity: 0.22; pointer-events: none; z-index: -1; }
+.balance-glow-one { top: -85px; right: -45px; background: #818cf8; }
+.balance-glow-two { bottom: -115px; left: -55px; background: #34d399; opacity: 0.12; }
+.premium-balance-topline, .premium-balance-label-wrap { display: flex; align-items: center; }
+.premium-balance-topline { justify-content: space-between; gap: 10px; position: relative; }
+.premium-balance-label-wrap { gap: 10px; min-width: 0; }
+.premium-balance-icon { width: 38px; height: 38px; flex: 0 0 38px; border-radius: 13px; display: flex; align-items: center; justify-content: center; color: #c7d2fe; background: linear-gradient(145deg, rgba(129, 140, 248, 0.25), rgba(99, 102, 241, 0.1)); border: 1px solid rgba(165, 180, 252, 0.2); }
+.premium-balance-kicker { color: #a5b4fc; font-size: 0.62rem; letter-spacing: 1.35px; font-weight: 800; margin-bottom: 3px; }
+.premium-balance-card .balance-label { color: #e2e8f0; opacity: 0.82; font-size: 0.76rem; }
+.premium-savings-badge { position: static; flex-shrink: 0; padding: 5px 8px; font-size: 0.67rem; color: #d1fae5; background: rgba(16, 185, 129, 0.12); border-color: rgba(52, 211, 153, 0.22); }
+.premium-balance-amount { position: relative; font-size: clamp(1.8rem, 7vw, 2.45rem); letter-spacing: -1px; line-height: 1.18; margin: 17px 0 13px; overflow-wrap: anywhere; color: #fff; text-shadow: 0 2px 22px rgba(129, 140, 248, 0.16); }
+.premium-balance-amount.balance-negative { color: #fda4af; }
+.balance-progress-track, .streak-progress-track { height: 6px; width: 100%; overflow: hidden; border-radius: 999px; background: rgba(148, 163, 184, 0.18); }
+.balance-progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #818cf8, #34d399); box-shadow: 0 0 12px rgba(52, 211, 153, 0.25); transition: width 0.3s ease; }
+.premium-balance-footnote { display: flex; justify-content: space-between; gap: 8px; align-items: center; color: #a5b4c8; font-size: 0.68rem; margin-top: 8px; }
+.premium-balance-cycle { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.premium-balance-stats { border-top-color: rgba(203, 213, 225, 0.14); margin-top: 16px; padding-top: 14px; gap: 12px; }
+.premium-balance-stat { flex: 1; min-width: 0; gap: 4px; }
+.premium-balance-stat .stat-label { color: #aebbd0; font-size: 0.67rem; display: flex; align-items: center; gap: 5px; }
+.premium-balance-stat .stat-label i { font-size: 0.62rem; }
+.premium-balance-stat .stat-val { font-size: 0.9rem; overflow-wrap: anywhere; }
+.premium-balance-stat-out { text-align: right; align-items: flex-end; }
+
+@media (max-width: 899px) {
+  .premium-balance-card { padding: 18px 15px 15px; }
+  .premium-balance-amount { font-size: clamp(1.65rem, 7vw, 2.1rem); }
+  .premium-balance-stat .stat-val { font-size: 0.82rem; }
+}
+
+/* Theme-aware premium Remaining Balance card for Light and Rose Gold/Pink themes. */
+[data-theme='light'] .premium-balance-card {
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 54%, #ecfeff 100%);
+  border-color: rgba(59, 130, 246, 0.18);
+  box-shadow: 0 16px 36px rgba(59, 130, 246, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+[data-theme='light'] .premium-balance-card::before {
+  background: linear-gradient(115deg, rgba(96, 165, 250, 0.13), transparent 44%, rgba(45, 212, 191, 0.12));
+}
+[data-theme='light'] .premium-balance-card .premium-balance-icon {
+  color: #2563eb;
+  background: linear-gradient(145deg, rgba(96, 165, 250, 0.18), rgba(34, 211, 238, 0.12));
+  border-color: rgba(59, 130, 246, 0.18);
+}
+[data-theme='light'] .premium-balance-kicker { color: #2563eb; }
+[data-theme='light'] .premium-balance-card .balance-label { color: #475569; opacity: 1; }
+[data-theme='light'] .premium-savings-badge {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.10);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+[data-theme='light'] .premium-balance-amount {
+  color: #0f172a;
+  text-shadow: 0 2px 18px rgba(59, 130, 246, 0.10);
+}
+[data-theme='light'] .premium-balance-amount.balance-negative { color: #dc2626; }
+[data-theme='light'] .balance-progress-track { background: rgba(100, 116, 139, 0.15); }
+[data-theme='light'] .balance-progress-fill {
+  background: linear-gradient(90deg, #3b82f6, #14b8a6);
+  box-shadow: 0 0 12px rgba(20, 184, 166, 0.20);
+}
+[data-theme='light'] .premium-balance-footnote { color: #64748b; }
+[data-theme='light'] .premium-balance-stats { border-top-color: rgba(100, 116, 139, 0.18); }
+[data-theme='light'] .premium-balance-stat .stat-label { color: #64748b; }
+
+[data-theme='rosegold'] .premium-balance-card {
+  background: linear-gradient(135deg, #fffafb 0%, #ffe4ec 54%, #fce7f3 100%);
+  border-color: rgba(219, 39, 119, 0.20);
+  box-shadow: 0 16px 36px rgba(190, 24, 93, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+[data-theme='rosegold'] .premium-balance-card::before {
+  background: linear-gradient(115deg, rgba(244, 114, 182, 0.15), transparent 44%, rgba(251, 113, 133, 0.12));
+}
+[data-theme='rosegold'] .premium-balance-card .premium-balance-icon {
+  color: #be185d;
+  background: linear-gradient(145deg, rgba(244, 114, 182, 0.20), rgba(251, 113, 133, 0.12));
+  border-color: rgba(219, 39, 119, 0.18);
+}
+[data-theme='rosegold'] .premium-balance-kicker { color: #be185d; }
+[data-theme='rosegold'] .premium-balance-card .balance-label { color: #881337; opacity: 0.9; }
+[data-theme='rosegold'] .premium-savings-badge {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.10);
+  border-color: rgba(16, 185, 129, 0.20);
+}
+[data-theme='rosegold'] .premium-balance-amount {
+  color: #4c0519;
+  text-shadow: 0 2px 18px rgba(219, 39, 119, 0.10);
+}
+[data-theme='rosegold'] .premium-balance-amount.balance-negative { color: #be123c; }
+[data-theme='rosegold'] .balance-progress-track { background: rgba(190, 24, 93, 0.12); }
+[data-theme='rosegold'] .balance-progress-fill {
+  background: linear-gradient(90deg, #db2777, #fb7185, #f9a8d4);
+  box-shadow: 0 0 12px rgba(219, 39, 119, 0.20);
+}
+[data-theme='rosegold'] .premium-balance-footnote { color: #9f1239; }
+[data-theme='rosegold'] .premium-balance-stats { border-top-color: rgba(190, 24, 93, 0.15); }
+[data-theme='rosegold'] .premium-balance-stat .stat-label { color: #9f1239; }
