@@ -472,7 +472,7 @@
 .streak-milestone-icon.fire-3 .flame-core { opacity: 1; transform: scale(.8); fill: #ffdb8a; }
 .streak-milestone.is-reached { color: var(--text-primary); border-color: color-mix(in srgb, var(--primary-color) 40%, var(--border-color)); }
 .streak-preview-help { margin: 13px 0 0; font-size: .78rem; color: var(--text-secondary); }
-.streak-press-preview { position: absolute; z-index: 5; left: 50%; bottom: 70px; transform: translateX(-50%); width: 112px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 15px; border: 1px solid var(--border-color); background: var(--modal-bg); box-shadow: 0 8px 28px rgba(0,0,0,.28); color: var(--text-primary); pointer-events: none; }
+.streak-press-preview { position: absolute; z-index: 5; left: 50%; bottom: 70px; transform: translateX(-50%); width: 112px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 15px; border: 1px solid color-mix(in srgb, var(--border-color) 72%, white); background: color-mix(in srgb, var(--modal-bg) 72%, transparent); -webkit-backdrop-filter: blur(12px) saturate(135%); backdrop-filter: blur(12px) saturate(135%); box-shadow: 0 8px 28px rgba(0,0,0,.22); color: var(--text-primary); pointer-events: none; }
 .streak-preview-flame { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; color: #ff8a24; }
 .streak-preview-flame svg { width: 44px; height: 44px; display: block; overflow: visible; }
 .streak-press-preview strong { font-size: .76rem; white-space: nowrap; }
@@ -488,3 +488,13 @@
 .streak-tip-card i { margin-top: 3px; color: #f5a623; }
 .streak-reference-modal, .streak-reference-modal * { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 380px) { .streak-reference-card { padding: 18px 11px 15px; } .streak-count-row strong { font-size: 2.65rem; } .streak-milestone-row { gap: 4px; } .streak-milestone { font-size: .67rem; } }
+
+/* Distinct final milestone treatments; static only (no animation). */
+.streak-giant-flame.fire-100, .streak-milestone-icon.fire-100, .streak-preview-flame.fire-100 { color: #ec4899; filter: drop-shadow(0 0 5px rgba(236,72,153,.28)); }
+.streak-giant-flame.fire-100 .flame-base, .streak-milestone-icon.fire-100 .flame-base, .streak-preview-flame.fire-100 .flame-base { fill: #f97316; }
+.streak-giant-flame.fire-100 .flame-left, .streak-giant-flame.fire-100 .flame-right, .streak-milestone-icon.fire-100 .flame-left, .streak-milestone-icon.fire-100 .flame-right, .streak-preview-flame.fire-100 .flame-left, .streak-preview-flame.fire-100 .flame-right { fill: #ec4899; }
+.streak-giant-flame.fire-200, .streak-milestone-icon.fire-200, .streak-preview-flame.fire-200 { color: #8b5cf6; filter: drop-shadow(0 0 7px rgba(139,92,246,.42)); }
+.streak-giant-flame.fire-200 .flame-base, .streak-milestone-icon.fire-200 .flame-base, .streak-preview-flame.fire-200 .flame-base { fill: #7c3aed; }
+.streak-giant-flame.fire-200 .flame-left, .streak-giant-flame.fire-200 .flame-right, .streak-milestone-icon.fire-200 .flame-left, .streak-milestone-icon.fire-200 .flame-right, .streak-preview-flame.fire-200 .flame-left, .streak-preview-flame.fire-200 .flame-right { fill: #a78bfa; opacity: 1; transform: scale(1.16); }
+.streak-giant-flame.fire-200 .flame-crown, .streak-milestone-icon.fire-200 .flame-crown, .streak-preview-flame.fire-200 .flame-crown { fill: #ddd6fe; opacity: 1; transform: scale(1.12); }
+.streak-giant-flame.fire-200 .flame-core, .streak-milestone-icon.fire-200 .flame-core, .streak-preview-flame.fire-200 .flame-core { fill: #f5d0fe; opacity: 1; transform: scale(1.12); }
