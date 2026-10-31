@@ -511,7 +511,7 @@ input, textarea, [contenteditable="true"], input *, textarea * {
   user-select: text;
 }
 
-/* Restored last-known premium Remaining Balance UI only; Streak styles above are untouched. */
+/* Restored last-approved Remaining Balance card styling only. */
 /* Premium finance summary cards — leaves the header, navigation and shell untouched. */
 .premium-balance-card {
   isolation: isolate;
@@ -546,12 +546,6 @@ input, textarea, [contenteditable="true"], input *, textarea * {
 .premium-balance-stat .stat-label i { font-size: 0.62rem; }
 .premium-balance-stat .stat-val { font-size: 0.9rem; overflow-wrap: anywhere; }
 .premium-balance-stat-out { text-align: right; align-items: flex-end; }
-
-@media (max-width: 899px) {
-  .premium-balance-card { padding: 18px 15px 15px; }
-  .premium-balance-amount { font-size: clamp(1.65rem, 7vw, 2.1rem); }
-  .premium-balance-stat .stat-val { font-size: 0.82rem; }
-}
 
 /* Theme-aware premium Remaining Balance card for Light and Rose Gold/Pink themes. */
 [data-theme='light'] .premium-balance-card {
