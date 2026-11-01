@@ -26,7 +26,6 @@ export default function Expense() {
         <div className="summary-total-icon"><i className="fas fa-hand-holding-dollar" /></div>
         <div className="balance-label summary-total-label">Total Expenses</div>
         <div className="balance-amount summary-total-amount amount-out">{formatMoney(total, settings.currency)}</div>
-        <div className="summary-total-caption"><i className="fas fa-receipt" /> Spending recorded this cycle</div>
       </div>
 
       {expenseTemplates.length > 0 && (

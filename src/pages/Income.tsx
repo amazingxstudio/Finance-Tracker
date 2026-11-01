@@ -22,7 +22,6 @@ export default function Income() {
         <div className="summary-total-icon"><i className="fas fa-wallet" /></div>
         <div className="balance-label summary-total-label">Total Income</div>
         <div className="balance-amount summary-total-amount amount-in">{formatMoney(total, settings.currency)}</div>
-        <div className="summary-total-caption"><i className="fas fa-chart-line" /> Income recorded this cycle</div>
       </div>
 
       {incomeTemplates.length > 0 && (
