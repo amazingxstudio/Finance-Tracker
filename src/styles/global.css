@@ -615,3 +615,46 @@ input, textarea, [contenteditable="true"], input *, textarea * {
 [data-theme='rosegold'] .premium-balance-footnote { color: #9f1239; }
 [data-theme='rosegold'] .premium-balance-stats { border-top-color: rgba(190, 24, 93, 0.15); }
 [data-theme='rosegold'] .premium-balance-stat .stat-label { color: #9f1239; }
+
+
+/* Reference-matched Income / Expense total cards and About App layout only. */
+.summary-total-card {
+  min-height: 248px; padding: 30px 18px 28px; margin: 0 0 20px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; border: 1px solid transparent; border-radius: 34px;
+  box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+.summary-total-card .summary-total-icon { font-size: 2.25rem; line-height: 1; margin-bottom: 17px; }
+.summary-total-card .summary-total-label { font-size: 0.9rem; font-weight: 800; letter-spacing: .35px; opacity: 1; margin-bottom: 18px; }
+.summary-total-card .summary-total-amount { font-size: 2.9rem; line-height: 1; font-weight: 800; margin: 0; letter-spacing: -1px; }
+.income-summary-card { background: linear-gradient(145deg, #102b27 0%, #15352e 100%); color: #34d399; }
+.income-summary-card .summary-total-label { color: #34d399; }
+.income-summary-card .summary-total-amount { color: #34d399; }
+.expense-summary-card { background: linear-gradient(145deg, #2a1922 0%, #321e29 100%); color: #fb7185; }
+.expense-summary-card .summary-total-label { color: #fb7185; }
+.expense-summary-card .summary-total-amount { color: #fb7185; }
+
+/* About card follows the supplied reference; scoped to this modal only. */
+.about-modal-content { width: min(90%, 520px); max-width: 520px; padding: 28px 30px 26px; border-radius: 42px; }
+.about-modal-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+.about-modal-title { color: #172033; font-size: 1.45rem; font-weight: 800; text-align: left; }
+.about-close-btn { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; color: #64748b; font-size: 1.2rem; }
+.app-icon-container { width: 122px; height: 122px; border-radius: 32px; margin: 0 auto 24px; font-size: 2.7rem; }
+.about-app-name { color: #111827; font-size: 2.15rem; line-height: 1.2; font-weight: 800; letter-spacing: -1px; margin-bottom: 18px; }
+.version-badge { margin-bottom: 28px; padding: 7px 18px; font-size: .95rem; }
+.dev-profile-card { padding: 22px 24px; margin-bottom: 28px; border-radius: 28px; gap: 20px; }
+.dev-avatar { width: 68px; height: 68px; flex: 0 0 68px; font-size: 1.45rem; }
+.about-dev-label { color: #64748b; font-size: .78rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 6px; }
+.about-dev-name { color: #111827; font-size: 1.15rem; font-weight: 800; }
+.about-social-links { display: flex; gap: 16px; margin-bottom: 26px; }
+.about-social-links .social-btn { min-height: 68px; border-radius: 22px; font-size: 1.05rem; }
+.about-telegram { color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; }
+.about-email { color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; }
+.about-copyright { color: #94a3b8; font-size: .88rem; font-weight: 500; line-height: 1.4; }
+@media (max-width: 420px) {
+  .about-modal-content { padding: 24px 20px 22px; border-radius: 36px; }
+  .about-app-name { font-size: 1.85rem; }
+  .about-social-links { gap: 10px; }
+  .about-social-links .social-btn { padding: 12px 8px; font-size: .92rem; }
+  .summary-total-card { min-height: 230px; }
+}
